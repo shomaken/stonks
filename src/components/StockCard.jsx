@@ -277,9 +277,9 @@ function StockCard({ stock, stonksPrice }) {
        } catch (jupiterError) {
          console.error('❌ Jupiter swap failed:', jupiterError)
          
-                 // More specific error messages
-        if (jupiterError.message?.includes('No route found') || jupiterError.message?.includes('error code')) {
-          throw new Error(`❌ No liquidity route available for ${stock.symbol}. This token may not have sufficient liquidity on Jupiter DEX yet.`)
+                 // More specific error messages with helpful suggestions
+        if (jupiterError.message?.includes('No route found') || jupiterError.message?.includes('error code') || jupiterError.message?.includes('Response returned an error code')) {
+          throw new Error(`💡 Amount too small! Try swapping more ${direction === 'buy' ? 'STONKS' : stock.symbol} for better liquidity. Minimum suggested: ${direction === 'buy' ? '10 STONKS' : '5 tokens'}.`)
         } else if (jupiterError.message?.includes('Insufficient')) {
           throw new Error(`❌ Insufficient ${direction === 'buy' ? 'STONKS' : stock.symbol} balance in your wallet.`)
         } else if (jupiterError.message?.includes('User rejected')) {
@@ -297,9 +297,9 @@ function StockCard({ stock, stonksPrice }) {
     } catch (error) {
       console.error('❌ Swap failed:', error)
       
-      // Handle specific error types with Jupiter RPC context
-      if (error.message?.includes('No liquidity route') || error.message?.includes('No route found')) {
-        toast.error('💧 No liquidity available for this token pair. Try a different amount.')
+      // Handle specific error types with helpful suggestions
+      if (error.message?.includes('Amount too small') || error.message?.includes('No liquidity route') || error.message?.includes('No route found')) {
+        toast.error(error.message, { duration: 6000 })
       } else if (error.message?.includes('Insufficient')) {
         toast.error(`💰 ${error.message}`)
       } else if (error.message?.includes('User rejected')) {
@@ -420,6 +420,9 @@ function StockCard({ stock, stonksPrice }) {
                 min="0"
                 step="any"
               />
+              <div className="text-xs text-gray-500 mt-1">
+                💡 Tip: Use larger amounts (10+ STONKS) for better liquidity
+              </div>
             </div>
             
             {amount && parseFloat(amount) > 0 && (
