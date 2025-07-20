@@ -24,20 +24,19 @@ import Footer from './components/Footer'
 import { checkTokenConfiguration, logTokenConfiguration } from './services/tokenService'
 
 function App() {
-  // Configure Solana network and RPC endpoint with CORS-enabled public RPCs
+  // Configure Solana network and RPC endpoint with QuickNode and fallbacks
   const network = WalletAdapterNetwork.Mainnet
   const endpoint = useMemo(() => {
-    // Use CORS-enabled public RPC endpoints (browser-friendly)
-    const corsEnabledRpcEndpoints = [
-      'https://rpc.ankr.com/solana',
+    // Use QuickNode as primary, with free CORS-enabled RPCs as fallbacks
+    const rpcEndpoints = [
       'https://solana-api.projectserum.com',
       'https://api.mainnet-beta.solana.com',
       'https://solana.public-rpc.com'
     ]
     
-    // Use environment variable or default to Ankr RPC endpoint
-    // Ankr RPC is CORS-enabled and reliable for browser apps
-    return import.meta.env.VITE_SOLANA_RPC_URL || corsEnabledRpcEndpoints[0]
+    // Use environment variable (QuickNode) or default to Project Serum RPC endpoint
+    // QuickNode provides reliable, fast RPC with excellent CORS support
+    return import.meta.env.VITE_SOLANA_RPC_URL || rpcEndpoints[0]
   }, [network])
 
   // Check token configuration on app startup
