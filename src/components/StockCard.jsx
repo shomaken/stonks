@@ -23,6 +23,73 @@ function StockCard({ stock, stonksPrice }) {
   // How many STONKS you need for 1 stock token
   const stockToStonksRate = stockUsdPrice / stonksUsdPrice
 
+  // Function to get user's current balance for quick amount buttons
+  const getUserBalance = async (tokenType) => {
+    if (!connected || !publicKey) return 0
+    
+    try {
+      if (tokenType === 'STONKS') {
+        const stonksTokenAccount = await connection.getTokenAccountsByOwner(
+          publicKey,
+          { mint: new PublicKey('6NcdiK8B5KK2DzKvzvCfqi8EHaEqu48fyEzC8Mm9pump') }
+        )
+        if (stonksTokenAccount.value.length === 0) return 0
+        
+        const accountInfo = await connection.getTokenAccountBalance(stonksTokenAccount.value[0].pubkey)
+        return parseFloat(accountInfo.value.uiAmount || 0)
+      } else {
+        // Get stock token balance
+        const stockTokenAccount = await connection.getTokenAccountsByOwner(
+          publicKey,
+          { mint: new PublicKey(stock.mint) }
+        )
+        if (stockTokenAccount.value.length === 0) return 0
+        
+        const accountInfo = await connection.getTokenAccountBalance(stockTokenAccount.value[0].pubkey)
+        return parseFloat(accountInfo.value.uiAmount || 0)
+      }
+    } catch (error) {
+      console.error('Error getting balance:', error)
+      return 0
+    }
+  }
+
+  // Quick amount button handlers
+  const handleQuickAmount = async (percentage) => {
+    if (!connected || !publicKey) {
+      toast.error('Please connect your wallet first')
+      return
+    }
+
+    try {
+      const tokenType = swapDirection === 'buy' ? 'STONKS' : stock.symbol
+      const balance = await getUserBalance(tokenType)
+      
+      if (balance <= 0) {
+        toast.error(`No ${tokenType} balance found`)
+        return
+      }
+
+      let quickAmount
+      if (percentage === 'max') {
+        // For max, use 99% to leave some for fees
+        quickAmount = balance * 0.99
+      } else {
+        // For 50%
+        quickAmount = balance * 0.5
+      }
+
+      // Format to reasonable decimal places
+      const formattedAmount = quickAmount < 0.001 ? quickAmount.toFixed(6) : quickAmount.toFixed(3)
+      setAmount(formattedAmount)
+      
+      toast.success(`Set to ${percentage === 'max' ? '99%' : '50%'} of ${tokenType} balance`)
+    } catch (error) {
+      console.error('Error setting quick amount:', error)
+      toast.error('Error calculating amount')
+    }
+  }
+
   // Check wallet balances before swap with CORS-enabled RPC and retry logic
   const checkWalletBalance = async (direction, amount) => {
     try {
@@ -440,6 +507,24 @@ function StockCard({ stock, stonksPrice }) {
                 min="0"
                 step="any"
               />
+              
+              {/* Quick Amount Buttons */}
+              <div className="flex space-x-2 mt-2">
+                <button
+                  onClick={() => handleQuickAmount('50%')}
+                  disabled={isLoading}
+                  className="flex-1 px-3 py-1 text-xs bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  50%
+                </button>
+                <button
+                  onClick={() => handleQuickAmount('max')}
+                  disabled={isLoading}
+                  className="flex-1 px-3 py-1 text-xs bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  MAX
+                </button>
+              </div>
             </div>
             
             {amount && parseFloat(amount) > 0 && (
