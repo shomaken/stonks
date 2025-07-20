@@ -107,7 +107,7 @@ function Footer() {
           <div className="flex flex-wrap justify-center items-center gap-6 text-sm text-gray-500">
             <span>Built on Solana</span>
             <span>•</span>
-            <span>Powered by Jupiter</span>
+            <span>Powered by Solana</span>
             <span>•</span>
             <span>Diamond Hands Only 💎🙌</span>
           </div>
