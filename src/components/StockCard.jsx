@@ -21,10 +21,10 @@ function StockCard({ stock, stonksPrice }) {
   const stonksUsdPrice = stonksPrice?.price || 0.001
   const stockUsdPrice = stock.price
   
-  // How many stock tokens you get for 1 STONKS
+  // How many stock tokens you get for 1 ST0NKS
   const stonksToStockRate = stonksUsdPrice / stockUsdPrice
   
-  // How many STONKS you need for 1 stock token
+  // How many ST0NKS you need for 1 stock token
   const stockToStonksRate = stockUsdPrice / stonksUsdPrice
 
   // Function to get user's current balance for quick amount buttons
@@ -113,7 +113,7 @@ function StockCard({ stock, stonksPrice }) {
         )
         
         if (stonksTokenAccount.value.length === 0) {
-          throw new Error('No STONKS tokens found in wallet. Get some STONKS first!')
+          throw new Error('No ST0NKS tokens found in wallet. Get some ST0NKS first!')
         }
         
         const accountInfo = await executeRpcWithRetry(
@@ -128,7 +128,7 @@ function StockCard({ stock, stonksPrice }) {
         
         if (balance < amountRequired) {
           const balanceFormatted = (balance / divisor).toFixed(6)
-          throw new Error(`Insufficient STONKS balance. You have ${balanceFormatted} STONKS, need ${amount}`)
+          throw new Error(`Insufficient ST0NKS balance. You have ${balanceFormatted} ST0NKS, need ${amount}`)
         }
         
         console.log(`✅ STONKS balance check passed: ${(balance / divisor).toFixed(6)} available (${decimals} decimals)`)
@@ -463,7 +463,7 @@ function StockCard({ stock, stonksPrice }) {
           <div className="text-xs text-gray-500 mb-2 text-center">Live Exchange Rates</div>
           <div className="space-y-1">
             <div className="flex justify-between">
-              <span>1 STONKS =</span>
+              <span>1 ST0NKS =</span>
               <span className="text-stonks-green font-semibold">
                 {stonksToStockRate < 0.000001 
                   ? stonksToStockRate.toExponential(2)
@@ -474,7 +474,7 @@ function StockCard({ stock, stonksPrice }) {
             <div className="flex justify-between">
               <span>1 {stock.symbol} =</span>
               <span className="text-stonks-green font-semibold">
-                {stockToStonksRate.toFixed(0)} STONKS
+                {stockToStonksRate.toFixed(0)} ST0NKS
               </span>
             </div>
           </div>
@@ -498,7 +498,7 @@ function StockCard({ stock, stonksPrice }) {
             <div>
               <label className="block text-sm text-gray-400 mb-1">
                 {swapDirection === 'buy' 
-                  ? `Enter STONKS amount to spend (≈$${formatPrice(stonksUsdPrice)})` 
+                  ? `Enter ST0NKS amount to spend (≈$${formatPrice(stonksUsdPrice)})` 
                   : `Enter ${stock.symbol} amount to sell (≈${formatPrice(stockUsdPrice)})`
                 }
               </label>
@@ -538,7 +538,7 @@ function StockCard({ stock, stonksPrice }) {
                   {swapDirection === 'buy' 
                     ? (parseFloat(amount) * stonksToStockRate).toFixed(6)
                     : (parseFloat(amount) * stockToStonksRate).toFixed(2)
-                  } {swapDirection === 'buy' ? stock.symbol : 'STONKS'}
+                  } {swapDirection === 'buy' ? stock.symbol : 'ST0NKS'}
                 </div>
                 <div className="text-xs text-gray-500 mt-1">
                   ≈ ${swapDirection === 'buy' 
