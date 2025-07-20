@@ -42,7 +42,7 @@ function WalletDashboard() {
           decimals: TOKEN_CONFIG.STONKS.decimals
         }
       } catch (error) {
-        console.error('Error fetching STONKS balance:', error)
+        console.error('Error fetching ST0NKS balance:', error)
         newBalances.STONKS = { balance: 0, symbol: 'STONKS', name: 'St0nks Token', decimals: 9 }
       }
 
