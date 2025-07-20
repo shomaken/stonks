@@ -99,7 +99,16 @@ function WalletDashboard() {
     return balance.toFixed(2)
   }
 
-  const balanceEntries = Object.entries(balances)
+  // Sort balances by amount (highest first), then by symbol name for ties
+  const balanceEntries = Object.entries(balances).sort(([aSymbol, aData], [bSymbol, bData]) => {
+    // Primary sort: by balance amount (descending)
+    if (bData.balance !== aData.balance) {
+      return bData.balance - aData.balance
+    }
+    // Secondary sort: by symbol name (ascending) for ties
+    return aSymbol.localeCompare(bSymbol)
+  })
+  
   const hasNonZeroBalances = balanceEntries.some(([, data]) => data.balance > 0)
 
   return (
