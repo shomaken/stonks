@@ -136,26 +136,7 @@ function Hero() {
               </motion.div>
             )}
 
-            {/* Stats */}
-            <motion.div 
-              className="flex flex-wrap gap-8 justify-center lg:justify-start mt-12"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.2 }}
-            >
-              <div className="text-center">
-                <div className="text-2xl font-bold text-stonks-green">$0</div>
-                <div className="text-sm text-gray-400">Gas Fees</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-stonks-green">24/7</div>
-                <div className="text-sm text-gray-400">Trading</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-stonks-green">∞</div>
-                <div className="text-sm text-gray-400">Liquidity</div>
-              </div>
-            </motion.div>
+
           </motion.div>
 
           {/* Right side - Stonks Guy character */}
