@@ -18,5 +18,11 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ['buffer'],
+    exclude: ['@trezor/connect-web', '@trezor/connect-common', '@trezor/env-utils'],
+  },
+  build: {
+    commonjsOptions: {
+      transformMixedEsModules: true,
+    },
   },
 }) 
