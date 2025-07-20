@@ -61,7 +61,7 @@ const fetchFromJupiter = async (symbol) => {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
-          'User-Agent': 'Stonks/1.0'
+          'User-Agent': 'St0nks/1.0'
         },
         mode: 'cors',
         cache: 'no-cache',
@@ -89,7 +89,7 @@ const fetchFromJupiter = async (symbol) => {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
-            'User-Agent': 'Stonks/1.0'
+            'User-Agent': 'St0nks/1.0'
           },
           mode: 'cors',
           cache: 'no-cache',
@@ -135,7 +135,7 @@ const fetchFromJupiter = async (symbol) => {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
-              'User-Agent': 'Stonks/1.0'
+              'User-Agent': 'St0nks/1.0'
             },
             mode: 'cors',
             cache: 'no-cache',
@@ -331,7 +331,7 @@ export const fetchStonksPrice = async () => {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
-          'User-Agent': 'Stonks/1.0'
+          'User-Agent': 'St0nks/1.0'
         }
       }
     )
@@ -356,7 +356,7 @@ export const fetchStonksPrice = async () => {
           
           return {
             symbol: 'STONKS',
-            name: 'Stonks Token',
+            name: 'St0nks Token',
             price: price,
             change: change,
             changePercent: change,
@@ -376,7 +376,7 @@ export const fetchStonksPrice = async () => {
     // Fallback with a reasonable default
     return {
       symbol: 'STONKS',
-      name: 'Stonks Token',
+      name: 'St0nks Token',
       price: 0.024, // Last known good price
       change: 0,
       changePercent: 0,
@@ -390,7 +390,7 @@ export const fetchStonksPrice = async () => {
 // Helper functions for stock metadata
 const getStockName = (symbol) => {
   const names = {
-    STONKS: 'Stonks Token',
+    STONKS: 'St0nks Token',
     NVDAX: 'NVIDIA Corporation',
     TSLAX: 'Tesla Inc.',
     SPYx: 'SPDR S&P 500 ETF',
