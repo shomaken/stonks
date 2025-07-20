@@ -8,9 +8,9 @@ const DEXSCREENER_API = 'https://api.dexscreener.com/latest/dex/tokens'
 
 // Your actual stock token addresses (with "x" suffix tokens)
 const STOCK_TOKEN_ADDRESSES = {
-  STONKS: '6NcdiK8B5KK2DzKvzvCfqi8EHaEqu48fyEzC8Mm9pump',
-  NVDAx: 'Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh',
-  TSLAx: 'XsDoVfqeBukxuZHWhdvWHBhgEHjGNst4MLodqsJHzoB', 
+  STONKS: '6NcdiK8B5KK2DzKvzvCfqi8EHaEqu48fyEzC8Mm9pump', 
+  NVDAX: 'Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh',
+  TSLAX: 'XsDoVfqeBukxuZHWhdvWHBhgEHjGNst4MLodqsJHzoB', 
   SPYx: 'XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W',
   CRCLx: 'XsueG8BtpquVJX9LVLLEGuViXUungE6WmK5YZ3p3bd1',
   MSTRx: 'XsP7xzNPvEHS1m6qfanPUGjNmdnmsLKEoNAnHjdxxyZ',
@@ -355,8 +355,8 @@ export const fetchStonksPrice = async () => {
 const getStockName = (symbol) => {
   const names = {
     STONKS: 'Stonks Token',
-    NVDAx: 'NVIDIA Corporation',
-    TSLAx: 'Tesla Inc.',
+    NVDAX: 'NVIDIA Corporation',
+    TSLAX: 'Tesla Inc.',
     SPYx: 'SPDR S&P 500 ETF',
     CRCLx: 'Circle USD',
     MSTRx: 'MicroStrategy Inc.',
@@ -371,8 +371,8 @@ const getStockName = (symbol) => {
 const getStockCategory = (symbol) => {
   const categories = {
     STONKS: 'platform',
-    NVDAx: 'tech',
-    TSLAx: 'tech',
+    NVDAX: 'tech',
+    TSLAX: 'tech',
     SPYx: 'etf',
     CRCLx: 'finance',
     MSTRx: 'tech',
