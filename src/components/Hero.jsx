@@ -65,7 +65,7 @@ function Hero() {
             >
               <img 
                 src={logo} 
-                alt="STONKS Logo" 
+                alt="ST0NKS Logo" 
                 className="h-16 md:h-20 lg:h-24 object-contain"
               />
             </motion.div>
@@ -83,7 +83,7 @@ function Hero() {
               </span>
               <br />
               with{' '}
-              <span className="text-stonks-green font-black">$STONKS</span>
+              <span className="text-stonks-green font-black">$ST0NKS</span>
             </motion.h1>
 
             {/* Subheadline */}
@@ -108,7 +108,7 @@ function Hero() {
                 <WalletMultiButton className="btn-3d !bg-stonks-green hover:!bg-green-500 !border-none !rounded-lg !font-heading !font-bold !text-lg !px-8 !py-4 !transition-all !duration-300" />
               </div>
 
-              {/* Buy STONKS button */}
+              {/* Buy ST0NKS button */}
               <motion.a
                 href="https://dexscreener.com/solana/CwMm1x28qoStmYnsLkRFqQfiQEyBTvKVJjcaSkc2bonk"
                 target="_blank"
@@ -117,7 +117,7 @@ function Hero() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Buy $STONKS
+                Buy $ST0NKS
               </motion.a>
 
               {connected && (
@@ -151,7 +151,7 @@ function Hero() {
 
           </motion.div>
 
-          {/* Right side - Stonks Guy character */}
+          {/* Right side - St0nks Guy character */}
           <motion.div 
             className="lg:w-1/2 flex justify-center lg:justify-end"
             initial={{ opacity: 0, x: 50 }}
@@ -176,7 +176,7 @@ function Hero() {
                 }}
               />
               
-              {/* STONKS Guy Character */}
+              {/* ST0NKS Guy Character */}
               <motion.div
                 className="relative z-10 w-80 h-80 md:w-96 md:h-96 flex items-center justify-center"
                 animate={{
@@ -190,7 +190,7 @@ function Hero() {
               >
                 <img 
                   src={stonksGuy} 
-                  alt="STONKS Guy Character" 
+                  alt="ST0NKS Guy Character" 
                   className="w-full h-full object-contain drop-shadow-2xl"
                 />
               </motion.div>
