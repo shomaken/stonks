@@ -381,7 +381,7 @@ function Info() {
                 <div className="relative z-10 flex items-center justify-center h-48">
                   <img 
                     src="/src/assets/solana-partner.png" 
-                    alt="Solana Partner" 
+                    alt="Solana Foundation" 
                     className="h-40 w-auto object-contain filter brightness-90 group-hover:brightness-110 transition-all duration-300"
                   />
                 </div>
