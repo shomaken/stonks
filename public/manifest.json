@@ -1,0 +1,41 @@
+{
+  "name": "ST0NKS Market",
+  "short_name": "ST0NKS",
+  "description": "Trade real stock-pegged tokens with $ST0NKS",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0b23",
+  "theme_color": "#00ff88",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "16x16", 
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+} 
