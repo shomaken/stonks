@@ -93,7 +93,7 @@ function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
-              Instant on-chain swaps via Jupiter – no broker needed
+              Instant on-chain swaps – no broker needed
             </motion.p>
 
             {/* CTA Buttons */}
