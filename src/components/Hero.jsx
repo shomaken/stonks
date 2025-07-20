@@ -108,6 +108,18 @@ function Hero() {
                 <WalletMultiButton className="btn-3d !bg-stonks-green hover:!bg-green-500 !border-none !rounded-lg !font-heading !font-bold !text-lg !px-8 !py-4 !transition-all !duration-300" />
               </div>
 
+              {/* Buy STONKS button */}
+              <motion.a
+                href="https://dexscreener.com/solana/5n96fyr2zzainyzaygai31xvt5exzfpnwh2s95yaxxsv"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-3d bg-gradient-to-r from-stonks-green to-green-600 hover:from-green-400 hover:to-green-500 border-stonks-green hover:border-green-400 text-white font-heading font-bold text-lg px-8 py-4 transition-all duration-300 text-center"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Buy $STONKS
+              </motion.a>
+
               {connected && (
                 <motion.button
                   className="btn-3d bg-gray-700 hover:bg-gray-600 border-gray-600 hover:border-gray-500"
