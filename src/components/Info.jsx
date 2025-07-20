@@ -11,7 +11,7 @@ function Info() {
     {
       icon: "🌐",
       title: "First‑Ever Tradable Meme",
-      description: "Put your $STONKS to work—you're not just HODLing, you're investing."
+      description: "Put your $ST0NKS to work—you're not just HODLing, you're investing."
     },
     {
       icon: "⚡",
@@ -28,7 +28,7 @@ function Info() {
   const swapSteps = [
     { step: "1", action: "Connect Wallet", icon: "🔌" },
     { step: "2", action: "Select Stock Token", icon: "📊" },
-    { step: "3", action: "Swap $STONKS ⟷ Stock", icon: "⚡" },
+    { step: "3", action: "Swap $ST0NKS ⟷ Stock", icon: "⚡" },
     { step: "4", action: "Hold & Profit", icon: "💎" }
   ]
 
@@ -56,7 +56,7 @@ function Info() {
             >
               🚀 Why{' '}
               <span className="text-stonks-green bg-gradient-to-r from-stonks-green to-green-400 bg-clip-text text-transparent">
-                Stonks?
+                St0nks?
               </span>
             </motion.h2>
             
@@ -67,7 +67,7 @@ function Info() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              Stonks isn't just a meme—it's the first meme token you can actually use to buy and sell real stock‑pegged SPL tokens. Here's what makes it legendary:
+              St0nks isn't just a meme—it's the first meme token you can actually use to buy and sell real stock‑pegged SPL tokens. Here's what makes it legendary:
             </motion.p>
 
             <div className="space-y-8">
@@ -141,7 +141,7 @@ function Info() {
                         <div className="text-gray-400 text-sm">
                           {step.step === "1" && "🔌 Connect Wallet"}
                           {step.step === "2" && "📊 Select Stock Token"}
-                          {step.step === "3" && "⚡ Swap $STONKS ⟷ Stock"}
+                          {step.step === "3" && "⚡ Swap $ST0NKS ⟷ Stock"}
                           {step.step === "4" && "💎 Hold & Profit"}
                         </div>
                       </div>
