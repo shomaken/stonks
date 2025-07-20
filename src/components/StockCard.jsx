@@ -426,7 +426,7 @@ function StockCard({ stock, stonksPrice }) {
               <h3 className="font-heading text-lg font-semibold text-white">
                 {stock.symbol}
               </h3>
-              <p className="text-sm text-gray-400 truncate max-w-32">
+              <p className="text-sm text-gray-400 truncate max-w-48">
                 {stock.name}
               </p>
             </div>
