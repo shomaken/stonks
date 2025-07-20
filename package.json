@@ -13,6 +13,7 @@
     "preview": "vite preview",
     "test-prices": "node src/test-prices.js",
     "create-token": "node src/scripts/createToken.js",
+    "test-rpc": "node src/scripts/test-rpc.js",
     "deploy": "npm run build",
     "deploy-netlify": "npm run build && netlify deploy --prod --dir=dist",
     "deploy-staging": "npm run build && netlify deploy --dir=dist"

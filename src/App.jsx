@@ -24,29 +24,28 @@ import Footer from './components/Footer'
 import { checkTokenConfiguration, logTokenConfiguration } from './services/tokenService'
 
 function App() {
-  // Configure Solana network and RPC endpoint with QuickNode and fallbacks
+  // Configure Solana network and RPC endpoint with multiple reliable fallbacks
   const network = WalletAdapterNetwork.Mainnet
   const endpoint = useMemo(() => {
-    // Priority order: QuickNode > Public RPCs
+    // Priority order: Environment RPC > Reliable Public RPCs
     const rpcEndpoints = [
-      'https://api.mainnet-beta.solana.com',      // Official Solana RPC
-      'https://solana.public-rpc.com',            // Public RPC
+      'https://api.mainnet-beta.solana.com',      // Official Solana RPC (most reliable)
       'https://solana-api.projectserum.com'       // Project Serum (fallback)
     ]
     
-    // Check if QuickNode environment variable is set
-    const quickNodeUrl = import.meta.env.VITE_SOLANA_RPC_URL
+    // Check if environment RPC variable is set
+    const envRpcUrl = import.meta.env.VITE_SOLANA_RPC_URL
     console.log('🔍 Environment check:', {
-      quickNodeUrl: quickNodeUrl ? '✅ Set' : '❌ Not set',
+      envRpcUrl: envRpcUrl ? '✅ Set' : '❌ Not set',
       envMode: import.meta.env.MODE,
       dev: import.meta.env.DEV
     })
     
-    if (quickNodeUrl) {
-      console.log('🚀 Using QuickNode RPC:', quickNodeUrl)
-      return quickNodeUrl
+    if (envRpcUrl) {
+      console.log('🚀 Using configured RPC:', envRpcUrl)
+      return envRpcUrl
     } else {
-      console.log('⚠️ QuickNode not configured, using fallback RPC')
+      console.log('⚠️ No RPC configured, using fallback RPC')
       return rpcEndpoints[0]
     }
   }, [network])

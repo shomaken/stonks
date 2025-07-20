@@ -7,7 +7,7 @@
  * @param {number} timeout - Timeout in milliseconds (default: 10000)
  * @returns {Promise} - The RPC call result
  */
-export const executeRpcWithRetry = async (rpcCall, maxRetries = 3, timeout = 10000) => {
+export const executeRpcWithRetry = async (rpcCall, maxRetries = 3, timeout = 15000) => {
   let lastError
   
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
@@ -38,7 +38,7 @@ export const executeRpcWithRetry = async (rpcCall, maxRetries = 3, timeout = 100
       
       // Wait before retry (exponential backoff)
       if (attempt < maxRetries) {
-        const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000)
+        const delay = Math.min(1000 * Math.pow(2, attempt - 1), 3000)
         console.log(`⏳ Waiting ${delay}ms before retry...`)
         await new Promise(resolve => setTimeout(resolve, delay))
       }
@@ -88,4 +88,55 @@ export const getRpcErrorMessage = (error) => {
   }
   
   return error.message || 'RPC error occurred. Please try again.'
-} 
+}
+
+/**
+ * Test RPC endpoint health
+ * @param {string} endpoint - The RPC endpoint to test
+ * @param {number} timeout - Timeout in milliseconds (default: 5000)
+ * @returns {Promise<boolean>} - Whether the endpoint is healthy
+ */
+export const testRpcHealth = async (endpoint, timeout = 5000) => {
+  try {
+    const response = await Promise.race([
+      fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          jsonrpc: '2.0',
+          id: 1,
+          method: 'getHealth',
+        }),
+      }),
+      new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Health check timeout')), timeout)
+      )
+    ])
+    
+    return response.ok
+  } catch (error) {
+    console.warn(`❌ RPC health check failed for ${endpoint}:`, error.message)
+    return false
+  }
+}
+
+/**
+ * Get the best available RPC endpoint from a list
+ * @param {string[]} endpoints - List of RPC endpoints to test
+ * @returns {Promise<string>} - The first healthy endpoint
+ */
+export const getBestRpcEndpoint = async (endpoints) => {
+  for (const endpoint of endpoints) {
+    console.log(`🔍 Testing RPC endpoint: ${endpoint}`)
+    const isHealthy = await testRpcHealth(endpoint)
+    if (isHealthy) {
+      console.log(`✅ RPC endpoint healthy: ${endpoint}`)
+      return endpoint
+    }
+  }
+  
+  console.warn('⚠️ No healthy RPC endpoints found, using first endpoint')
+  return endpoints[0]
+}
