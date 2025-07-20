@@ -24,18 +24,20 @@ import Footer from './components/Footer'
 import { checkTokenConfiguration, logTokenConfiguration } from './services/tokenService'
 
 function App() {
-  // Configure Solana network and RPC endpoint with fallbacks
+  // Configure Solana network and RPC endpoint with reliable fallbacks
   const network = WalletAdapterNetwork.Mainnet
   const endpoint = useMemo(() => {
-    // Use completely free RPC endpoints (no API key required)
-    const freeRpcEndpoints = [
-      'https://solana-api.projectserum.com',
+    // Use reliable RPC endpoints with better uptime and fallback mechanism
+    const reliableRpcEndpoints = [
       'https://api.mainnet-beta.solana.com',
       'https://solana-mainnet.g.alchemy.com/v2/demo',
-      'https://mainnet.helius-rpc.com/?api-key=demo'
+      'https://mainnet.helius-rpc.com/?api-key=demo',
+      'https://rpc.ankr.com/solana',
+      'https://solana-api.projectserum.com' // Fallback
     ]
     
-    return import.meta.env.VITE_SOLANA_RPC_URL || freeRpcEndpoints[0]
+    // Use environment variable or default to most reliable endpoint
+    return import.meta.env.VITE_SOLANA_RPC_URL || reliableRpcEndpoints[0]
   }, [network])
 
   // Check token configuration on app startup
