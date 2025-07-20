@@ -121,10 +121,10 @@ function Dashboard() {
             </span>
           </h2>
           <p className="text-lg text-gray-300 max-w-2xl mx-auto mb-4">
-            Swap $STONKS for stock-pegged SPL tokens instantly. Real-time prices, zero fees.
+            Swap $ST0NKS for stock-pegged SPL tokens instantly. Real-time prices, zero fees.
           </p>
           
-          {/* STONKS Price Display */}
+                        {/* ST0NKS Price Display */}
           {stonksPrice && (
             <motion.div 
               className="bg-gradient-to-r from-stonks-green/20 to-green-400/20 backdrop-blur-sm border border-stonks-green/30 rounded-xl p-4 mb-8 max-w-md mx-auto"
@@ -135,7 +135,7 @@ function Dashboard() {
               <div className="flex items-center justify-center gap-4">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-stonks-green mb-1">
-                    💎 $STONKS
+                    💎 $ST0NKS
                   </div>
                   <div className="text-3xl font-bold text-white">
                     {formatPrice(stonksPrice.price)}
