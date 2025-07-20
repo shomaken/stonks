@@ -1,5 +1,8 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import solanaLogo from '../assets/solana-partner.png'
+import wintermuteLogo from '../assets/wintermute-partner.png'
+import letsbonkLogo from '../assets/letsbonk-partner.png'
 
 function Info() {
   const features = [
@@ -380,7 +383,7 @@ function Info() {
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative z-10 flex items-center justify-center h-48">
                   <img 
-                    src="/src/assets/solana-partner.png" 
+                    src={solanaLogo} 
                     alt="Solana Foundation" 
                     className="h-40 w-auto object-contain filter brightness-90 group-hover:brightness-110 transition-all duration-300"
                   />
@@ -401,7 +404,7 @@ function Info() {
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative z-10 flex items-center justify-center h-48">
                   <img 
-                    src="/src/assets/wintermute-partner.png" 
+                    src={wintermuteLogo} 
                     alt="Wintermute Partner" 
                     className="h-60 w-auto object-contain filter brightness-90 group-hover:brightness-110 transition-all duration-300"
                   />
@@ -422,7 +425,7 @@ function Info() {
                 <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative z-10 flex items-center justify-center h-48">
                   <img 
-                    src="/src/assets/letsbonk-partner.png" 
+                    src={letsbonkLogo} 
                     alt="LetsBONK Partner" 
                     className="h-60 w-auto object-contain filter brightness-90 group-hover:brightness-110 transition-all duration-300"
                   />
