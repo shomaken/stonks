@@ -30,7 +30,7 @@ function Footer() {
               📈
             </div>
             <div>
-              <h3 className="font-heading text-xl font-bold text-white">Stonks</h3>
+              <h3 className="font-heading text-xl font-bold text-white">St0nks</h3>
               <p className="text-sm text-gray-400">Trade Real Stocks</p>
             </div>
           </motion.div>
@@ -63,7 +63,7 @@ function Footer() {
               </a>
             </p>
             <p className="text-sm text-gray-500 mt-1">
-              © {currentYear} Stonks. No financial advice.
+              © {currentYear} St0nks. No financial advice.
             </p>
           </motion.div>
 
