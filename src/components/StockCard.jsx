@@ -4,6 +4,7 @@ import { useWallet, useConnection } from '@solana/wallet-adapter-react'
 import { PublicKey, Transaction, VersionedTransaction } from '@solana/web3.js'
 import toast from 'react-hot-toast'
 import { formatPrice, formatPriceChange } from '../services/stockPriceService'
+import { executeRpcWithRetry, getRpcErrorMessage } from '../utils/rpcUtils'
 
 function StockCard({ stock, stonksPrice }) {
   const { connected, publicKey, sendTransaction } = useWallet()
@@ -22,24 +23,33 @@ function StockCard({ stock, stonksPrice }) {
   // How many STONKS you need for 1 stock token
   const stockToStonksRate = stockUsdPrice / stonksUsdPrice
 
-  // Check wallet balances before swap
+  // Check wallet balances before swap with Jupiter RPC optimization and retry logic
   const checkWalletBalance = async (direction, amount) => {
     try {
+      console.log('🔍 Checking wallet balances with Jupiter RPC...')
       
       const amountLamports = Math.floor(parseFloat(amount) * 1e9)
       
       if (direction === 'buy') {
-        // Check STONKS balance for buying
-        const stonksTokenAccount = await connection.getTokenAccountsByOwner(
-          publicKey,
-          { mint: new PublicKey('6NcdiK8B5KK2DzKvzvCfqi8EHaEqu48fyEzC8Mm9pump') }
+        // Check STONKS balance for buying with retry
+        const stonksTokenAccount = await executeRpcWithRetry(
+          () => connection.getTokenAccountsByOwner(
+            publicKey,
+            { mint: new PublicKey('6NcdiK8B5KK2DzKvzvCfqi8EHaEqu48fyEzC8Mm9pump') }
+          ),
+          3, // 3 retries
+          8000 // 8 second timeout
         )
         
         if (stonksTokenAccount.value.length === 0) {
           throw new Error('No STONKS tokens found in wallet. Get some STONKS first!')
         }
         
-        const accountInfo = await connection.getTokenAccountBalance(stonksTokenAccount.value[0].pubkey)
+        const accountInfo = await executeRpcWithRetry(
+          () => connection.getTokenAccountBalance(stonksTokenAccount.value[0].pubkey),
+          3,
+          8000
+        )
         const balance = parseInt(accountInfo.value.amount)
         
         if (balance < amountLamports) {
@@ -50,17 +60,25 @@ function StockCard({ stock, stonksPrice }) {
         console.log(`✅ STONKS balance check passed: ${(balance / 1e9).toFixed(6)} available`)
         
       } else {
-        // Check stock token balance for selling
-        const stockTokenAccount = await connection.getTokenAccountsByOwner(
-          publicKey,
-          { mint: new PublicKey(stock.mint) }
+        // Check stock token balance for selling with retry
+        const stockTokenAccount = await executeRpcWithRetry(
+          () => connection.getTokenAccountsByOwner(
+            publicKey,
+            { mint: new PublicKey(stock.mint) }
+          ),
+          3,
+          8000
         )
         
         if (stockTokenAccount.value.length === 0) {
           throw new Error(`No ${stock.symbol} tokens found in wallet. Buy some first!`)
         }
         
-        const accountInfo = await connection.getTokenAccountBalance(stockTokenAccount.value[0].pubkey)
+        const accountInfo = await executeRpcWithRetry(
+          () => connection.getTokenAccountBalance(stockTokenAccount.value[0].pubkey),
+          3,
+          8000
+        )
         const balance = parseInt(accountInfo.value.amount)
         
         if (balance < amountLamports) {
@@ -71,24 +89,21 @@ function StockCard({ stock, stonksPrice }) {
         console.log(`✅ ${stock.symbol} balance check passed: ${(balance / 1e9).toFixed(6)} available`)
       }
       
-      // Check SOL balance for transaction fees
-      const solBalance = await connection.getBalance(publicKey)
+      // Check SOL balance for transaction fees with retry
+      const solBalance = await executeRpcWithRetry(
+        () => connection.getBalance(publicKey),
+        3,
+        8000
+      )
       if (solBalance < 5000) { // 0.000005 SOL minimum for fees
         throw new Error('Insufficient SOL for transaction fees. You need at least 0.000005 SOL.')
       }
       
+      console.log('✅ All balance checks passed!')
       return true
     } catch (error) {
       console.error('❌ Balance check failed:', error)
-      
-      // Handle RPC errors specifically
-      if (error.message?.includes('Failed to fetch') || error.message?.includes('timeout')) {
-        throw new Error('RPC connection timeout. Please try again in a few seconds.')
-      } else if (error.message?.includes('403') || error.message?.includes('Access forbidden')) {
-        throw new Error('RPC access denied. Please try again or refresh the page.')
-      }
-      
-      throw error
+      throw error // Let the main error handler deal with it
     }
   }
 
@@ -264,19 +279,16 @@ function StockCard({ stock, stonksPrice }) {
     } catch (error) {
       console.error('❌ Swap failed:', error)
       
-      // Handle specific error types
-      if (error.message?.includes('RPC connection timeout')) {
-        toast.error('🔄 RPC connection timeout. Please try again in a few seconds.')
-      } else if (error.message?.includes('RPC access denied')) {
-        toast.error('🚫 RPC access denied. Please refresh the page and try again.')
-      } else if (error.message?.includes('No liquidity route')) {
+      // Handle specific error types with Jupiter RPC context
+      if (error.message?.includes('No liquidity route') || error.message?.includes('No route found')) {
         toast.error('💧 No liquidity available for this token pair. Try a different amount.')
       } else if (error.message?.includes('Insufficient')) {
         toast.error(`💰 ${error.message}`)
       } else if (error.message?.includes('User rejected')) {
         toast.error('❌ Transaction was rejected. Please try again.')
       } else {
-        toast.error(error.message || 'Swap failed. Please try again.')
+        // Use the RPC utility for better error messages
+        toast.error(getRpcErrorMessage(error))
       }
     } finally {
       setIsLoading(false)
