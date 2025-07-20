@@ -24,20 +24,20 @@ import Footer from './components/Footer'
 import { checkTokenConfiguration, logTokenConfiguration } from './services/tokenService'
 
 function App() {
-  // Configure Solana network and RPC endpoint with Jupiter's reliable RPC
+  // Configure Solana network and RPC endpoint with CORS-enabled public RPCs
   const network = WalletAdapterNetwork.Mainnet
   const endpoint = useMemo(() => {
-    // Use Jupiter's RPC pool - optimized for swaps and more reliable
-    const jupiterRpcEndpoints = [
-      'https://jupiter.rpcpool.com',
-      'https://solana-api.projectserum.com',
+    // Use CORS-enabled public RPC endpoints (browser-friendly)
+    const corsEnabledRpcEndpoints = [
       'https://rpc.ankr.com/solana',
-      'https://api.mainnet-beta.solana.com'
+      'https://solana-api.projectserum.com',
+      'https://api.mainnet-beta.solana.com',
+      'https://solana.public-rpc.com'
     ]
     
-    // Use environment variable or default to Jupiter RPC endpoint
-    // Jupiter RPC is specifically optimized for DEX operations and swaps
-    return import.meta.env.VITE_SOLANA_RPC_URL || jupiterRpcEndpoints[0]
+    // Use environment variable or default to Ankr RPC endpoint
+    // Ankr RPC is CORS-enabled and reliable for browser apps
+    return import.meta.env.VITE_SOLANA_RPC_URL || corsEnabledRpcEndpoints[0]
   }, [network])
 
   // Check token configuration on app startup
