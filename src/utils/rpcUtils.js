@@ -78,7 +78,7 @@ export const isRetryableRpcError = (error) => {
  */
 export const getRpcErrorMessage = (error) => {
   if (error.message?.includes('RPC timeout') || error.message?.includes('timeout')) {
-    return '🔄 Jupiter RPC is busy. Please wait a moment and try again.'
+    return '🔄 RPC is busy. Please wait a moment and try again.'
   } else if (error.message?.includes('403') || error.message?.includes('Access forbidden')) {
     return '🚫 RPC access denied. Please refresh the page and try again.'
   } else if (error.message?.includes('Network error') || error.message?.includes('connection')) {
