@@ -12,17 +12,20 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': '/src',
-      // Add Buffer polyfill
+      // Add Node.js polyfills
       buffer: 'buffer',
+      crypto: 'crypto-browserify',
+      stream: 'stream-browserify',
     },
   },
   optimizeDeps: {
-    include: ['buffer'],
+    include: ['buffer', 'crypto-browserify', 'stream-browserify'],
     exclude: ['@trezor/connect-web', '@trezor/connect-common', '@trezor/env-utils'],
   },
   build: {
     commonjsOptions: {
       transformMixedEsModules: true,
+      ignore: ['@trezor/connect-web', '@trezor/connect-common', '@trezor/env-utils'],
     },
   },
 }) 
