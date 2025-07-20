@@ -114,7 +114,7 @@ function Footer() {
             transition={{ duration: 0.6, delay: 1.0 }}
           >
             <p>
-              This is a demo application. Not financial advice. Trading involves risk. 
+              Not financial advice. Trading involves risk. 
               Past performance does not guarantee future results. Always DYOR.
             </p>
           </motion.div>
