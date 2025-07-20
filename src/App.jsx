@@ -27,16 +27,28 @@ function App() {
   // Configure Solana network and RPC endpoint with QuickNode and fallbacks
   const network = WalletAdapterNetwork.Mainnet
   const endpoint = useMemo(() => {
-    // Use QuickNode as primary, with free CORS-enabled RPCs as fallbacks
+    // Priority order: QuickNode > Public RPCs
     const rpcEndpoints = [
-      'https://solana-api.projectserum.com',
-      'https://api.mainnet-beta.solana.com',
-      'https://solana.public-rpc.com'
+      'https://api.mainnet-beta.solana.com',      // Official Solana RPC
+      'https://solana.public-rpc.com',            // Public RPC
+      'https://solana-api.projectserum.com'       // Project Serum (fallback)
     ]
     
-    // Use environment variable (QuickNode) or default to Project Serum RPC endpoint
-    // QuickNode provides reliable, fast RPC with excellent CORS support
-    return import.meta.env.VITE_SOLANA_RPC_URL || rpcEndpoints[0]
+    // Check if QuickNode environment variable is set
+    const quickNodeUrl = import.meta.env.VITE_SOLANA_RPC_URL
+    console.log('🔍 Environment check:', {
+      quickNodeUrl: quickNodeUrl ? '✅ Set' : '❌ Not set',
+      envMode: import.meta.env.MODE,
+      dev: import.meta.env.DEV
+    })
+    
+    if (quickNodeUrl) {
+      console.log('🚀 Using QuickNode RPC:', quickNodeUrl)
+      return quickNodeUrl
+    } else {
+      console.log('⚠️ QuickNode not configured, using fallback RPC')
+      return rpcEndpoints[0]
+    }
   }, [network])
 
   // Check token configuration on app startup
