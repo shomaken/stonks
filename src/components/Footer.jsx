@@ -53,7 +53,14 @@ function Footer() {
                 🚀
               </motion.span>
               {' '}by{' '}
-              <span className="text-stonks-green font-bold">Brooz</span>
+              <a 
+                href="https://x.com/brooz22" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-stonks-green font-bold hover:text-green-400 transition-colors duration-300"
+              >
+                Brooz
+              </a>
             </p>
             <p className="text-sm text-gray-500 mt-1">
               © {currentYear} Stonks. No financial advice.
