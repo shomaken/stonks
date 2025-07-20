@@ -95,29 +95,7 @@ function Info() {
               ))}
             </div>
 
-            {/* Stats row */}
-            <motion.div 
-              className="mt-12 p-6 glass-effect"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 1.0 }}
-            >
-              <div className="grid grid-cols-3 gap-6 text-center">
-                <div>
-                  <div className="text-2xl font-bold text-stonks-green">100+</div>
-                  <div className="text-sm text-gray-400">Stock Tokens</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-stonks-green">$0</div>
-                  <div className="text-sm text-gray-400">Hidden Fees</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-stonks-green">⚡</div>
-                  <div className="text-sm text-gray-400">Lightning Fast</div>
-                </div>
-              </div>
-            </motion.div>
+
           </motion.div>
 
           {/* Right Column - Animated Swap Flow */}
