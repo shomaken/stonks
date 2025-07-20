@@ -279,7 +279,7 @@ function StockCard({ stock, stonksPrice }) {
          
                  // More specific error messages with helpful suggestions
         if (jupiterError.message?.includes('No route found') || jupiterError.message?.includes('error code') || jupiterError.message?.includes('Response returned an error code')) {
-          throw new Error(`💡 Amount too small! Try swapping more ${direction === 'buy' ? 'STONKS' : stock.symbol} for better liquidity. Minimum suggested: ${direction === 'buy' ? '10 STONKS' : '5 tokens'}.`)
+          throw new Error(`💡 Amount too small! Try swapping more ${direction === 'buy' ? 'STONKS' : stock.symbol} for better liquidity.`)
         } else if (jupiterError.message?.includes('Insufficient')) {
           throw new Error(`❌ Insufficient ${direction === 'buy' ? 'STONKS' : stock.symbol} balance in your wallet.`)
         } else if (jupiterError.message?.includes('User rejected')) {
