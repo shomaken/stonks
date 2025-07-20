@@ -12,15 +12,15 @@ export const TOKEN_CONFIG = {
     description: 'The main trading token for the Stonks platform'
   },
   STOCKS: {
-    NVDAx: {
+    NVDAX: {
       mint: import.meta.env.VITE_NVDA_MINT || 'Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh',
-      symbol: 'NVDAx',
+      symbol: 'NVDAX',
       name: 'NVIDIA Corporation',
       category: 'tech'
     },
-    TSLAx: {
+    TSLAX: {
       mint: import.meta.env.VITE_TSLA_MINT || 'XsDoVfqeBukxuZHWhdvWHBhgEHjGNst4MLodqsJHzoB',
-      symbol: 'TSLAx', 
+      symbol: 'TSLAX', 
       name: 'Tesla Inc.',
       category: 'tech'
     },
