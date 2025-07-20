@@ -48,10 +48,14 @@ function WalletDashboard() {
 
       // Get all stock token balances
       const stockTokens = getAllStockTokens()
+      console.log('🔍 Fetching balances for stock tokens:', stockTokens.map(t => `${t.symbol}: ${t.mint}`))
+      
       await Promise.all(
         stockTokens.map(async (token) => {
           try {
+            console.log(`🔍 Fetching balance for ${token.symbol} (${token.mint})`)
             const balance = await getTokenBalance(connection, publicKey.toString(), token.mint)
+            console.log(`✅ ${token.symbol} balance:`, balance)
             newBalances[token.symbol] = {
               balance,
               symbol: token.symbol,
@@ -59,7 +63,7 @@ function WalletDashboard() {
               decimals: 6 // Most stock tokens use 6 decimals
             }
           } catch (error) {
-            console.error(`Error fetching ${token.symbol} balance:`, error)
+            console.error(`❌ Error fetching ${token.symbol} balance:`, error)
             newBalances[token.symbol] = { balance: 0, symbol: token.symbol, name: token.name, decimals: 6 }
           }
         })
@@ -87,7 +91,9 @@ function WalletDashboard() {
 
   const formatBalance = (balance, decimals = 6) => {
     if (balance === 0) return '0.00'
-    if (balance < 0.01) return '<0.01'
+    if (balance < 0.000001) return balance.toExponential(3)
+    if (balance < 0.001) return balance.toFixed(6)
+    if (balance < 1) return balance.toFixed(4)
     return balance.toFixed(2)
   }
 
@@ -134,11 +140,6 @@ function WalletDashboard() {
         <div className="text-center text-gray-400 py-8">
           <p>Connect your wallet to view balances</p>
         </div>
-      ) : !hasNonZeroBalances ? (
-        <div className="text-center text-gray-400 py-8">
-          <p>No token balances found</p>
-          <p className="text-sm mt-2">Get some STONKS to start trading!</p>
-        </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {balanceEntries.map(([symbol, data]) => (
@@ -165,6 +166,9 @@ function WalletDashboard() {
               </div>
               <div className="text-white font-semibold">
                 {formatBalance(data.balance, data.decimals)}
+                {data.balance > 0 && data.balance < 0.001 && (
+                  <span className="text-xs text-yellow-400 block">Very small</span>
+                )}
               </div>
               <div className="text-xs text-gray-400 truncate">
                 {data.name}
