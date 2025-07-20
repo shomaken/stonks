@@ -8,7 +8,7 @@ const DEXSCREENER_API = 'https://api.dexscreener.com/latest/dex/tokens'
 
 // Your actual stock token addresses (with "x" suffix tokens)
 const STOCK_TOKEN_ADDRESSES = {
-  STONKS: '6NcdiK8B5KK2DzKvzvCfqi8EHaEqu48fyEzC8Mm9pump', 
+  STONKS: 'CwMm1x28qoStmYnsLkRFqQfiQEyBTvKVJjcaSkc2bonk', 
   NVDAX: 'Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh',
   TSLAX: 'XsDoVfqeBukxuZHWhdvWHBhgEHjGNst4MLodqsJHzoB', 
   SPYx: 'XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W',
