@@ -12,57 +12,57 @@ export const TOKEN_CONFIG = {
     description: 'The main trading token for the Stonks platform'
   },
   STOCKS: {
-    NVDA: {
+    NVDAx: {
       mint: import.meta.env.VITE_NVDA_MINT || 'Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh',
-      symbol: 'NVDA',
+      symbol: 'NVDAx',
       name: 'NVIDIA Corporation',
       category: 'tech'
     },
-    TSLA: {
+    TSLAx: {
       mint: import.meta.env.VITE_TSLA_MINT || 'XsDoVfqeBukxuZHWhdvWHBhgEHjGNst4MLodqsJHzoB',
-      symbol: 'TSLA', 
+      symbol: 'TSLAx', 
       name: 'Tesla Inc.',
       category: 'tech'
     },
-    SPY: {
+    SPYx: {
       mint: import.meta.env.VITE_SPY_MINT || 'XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W',
-      symbol: 'SPY',
+      symbol: 'SPYx',
       name: 'SPDR S&P 500 ETF',
       category: 'etf'
     },
-    CRCL: {
+    CRCLx: {
       mint: import.meta.env.VITE_CRCL_MINT || 'XsueG8BtpquVJX9LVLLEGuViXUungE6WmK5YZ3p3bd1',
-      symbol: 'CRCL',
+      symbol: 'CRCLx',
       name: 'Circle USD',
       category: 'finance'
     },
-    MSTR: {
+    MSTRx: {
       mint: import.meta.env.VITE_MSTR_MINT || 'XsP7xzNPvEHS1m6qfanPUGjNmdnmsLKEoNAnHjdxxyZ',
-      symbol: 'MSTR',
+      symbol: 'MSTRx',
       name: 'MicroStrategy Inc.',
       category: 'tech'
     },
-    GOOGL: {
+    GOOGLx: {
       mint: import.meta.env.VITE_GOOGL_MINT || 'XsCPL9dNWBMvFtTmwcCA5v3xWPSMEBCszbQdiLLq6aN',
-      symbol: 'GOOGL',
+      symbol: 'GOOGLx',
       name: 'Alphabet Inc.',
       category: 'tech'
     },
-    AAPL: {
+    AAPLx: {
       mint: import.meta.env.VITE_AAPL_MINT || 'XsbEhLAtcf6HdfpFZ5xEMdqW8nfAvcsP5bdudRLJzJp',
-      symbol: 'AAPL',
+      symbol: 'AAPLx',
       name: 'Apple Inc.',
       category: 'tech'
     },
-    MCD: {
+    MCDx: {
       mint: import.meta.env.VITE_MCD_MINT || 'XsqE9cRRpzxcGKDXj1BJ7Xmg4GRhZoyY1KpmGSxAWT2',
-      symbol: 'MCD',
+      symbol: 'MCDx',
       name: 'McDonald\'s Corporation',
       category: 'consumer'
     },
-    META: {
+    METAx: {
       mint: import.meta.env.VITE_META_MINT || 'Xsa62P5mvPszXL1krVUnU5ar38bBSVcWAB6fmPCo5Zu',
-      symbol: 'META',
+      symbol: 'METAx',
       name: 'Meta Platforms Inc.',
       category: 'tech'
     }
