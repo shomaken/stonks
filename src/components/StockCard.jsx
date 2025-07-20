@@ -25,14 +25,6 @@ function StockCard({ stock, stonksPrice }) {
   // Check wallet balances before swap
   const checkWalletBalance = async (direction, amount) => {
     try {
-      // Enable mock mode if RPC is having issues
-      const MOCK_BALANCE_MODE = import.meta.env.VITE_MOCK_BALANCE === 'true'
-      
-      if (MOCK_BALANCE_MODE) {
-        console.log('🧪 MOCK MODE: Skipping real balance checks')
-        toast.success(`Mock: Sufficient ${direction === 'buy' ? 'STONKS' : stock.symbol} balance for trade`)
-        return true
-      }
       
       const amountLamports = Math.floor(parseFloat(amount) * 1e9)
       
@@ -88,6 +80,12 @@ function StockCard({ stock, stonksPrice }) {
       return true
     } catch (error) {
       console.error('❌ Balance check failed:', error)
+      
+      // Handle RPC timeout errors specifically
+      if (error.message?.includes('Failed to fetch') || error.message?.includes('timeout')) {
+        throw new Error('RPC connection timeout. Please try again in a few seconds.')
+      }
+      
       throw error
     }
   }
@@ -111,9 +109,6 @@ function StockCard({ stock, stonksPrice }) {
       console.log('🔍 Checking wallet balances...')
       await checkWalletBalance(direction, amount)
       console.log('✅ Balance check passed, proceeding with swap...')
-      
-      // Mock transaction delay
-      await new Promise(resolve => setTimeout(resolve, 2000))
       
                     // Real Jupiter swap implementation with exact token addresses
        try {
@@ -266,7 +261,19 @@ function StockCard({ stock, stonksPrice }) {
       
     } catch (error) {
       console.error('❌ Swap failed:', error)
-      toast.error(error.message || 'Swap failed. Please try again.')
+      
+      // Handle specific error types
+      if (error.message?.includes('RPC connection timeout')) {
+        toast.error('🔄 RPC connection timeout. Please try again in a few seconds.')
+      } else if (error.message?.includes('No liquidity route')) {
+        toast.error('💧 No liquidity available for this token pair. Try a different amount.')
+      } else if (error.message?.includes('Insufficient')) {
+        toast.error(`💰 ${error.message}`)
+      } else if (error.message?.includes('User rejected')) {
+        toast.error('❌ Transaction was rejected. Please try again.')
+      } else {
+        toast.error(error.message || 'Swap failed. Please try again.')
+      }
     } finally {
       setIsLoading(false)
     }
