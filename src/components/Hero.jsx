@@ -63,11 +63,41 @@ function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
-              <img 
-                src={logo} 
-                alt="ST0NKS Logo" 
-                className="h-16 md:h-20 lg:h-24 object-contain"
-              />
+              <div className="relative">
+                {/* Stronger glow effect behind logo */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-radial from-stonks-green/80 to-transparent rounded-full blur-3xl scale-200"
+                  animate={{
+                    scale: [1.5, 2.2, 1.5],
+                    opacity: [0.7, 1.0, 0.7],
+                  }}
+                  transition={{
+                    duration: 2.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                />
+                {/* Additional inner glow layer */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-radial from-white/20 to-transparent rounded-full blur-xl scale-120"
+                  animate={{
+                    scale: [1.0, 1.3, 1.0],
+                    opacity: [0.3, 0.5, 0.3],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                />
+                
+                {/* Logo */}
+                <img 
+                  src={logo} 
+                  alt="ST0NKS Logo" 
+                  className="relative h-16 md:h-20 lg:h-24 object-contain"
+                />
+              </div>
             </motion.div>
 
             {/* Main headline */}
