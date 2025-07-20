@@ -5,7 +5,7 @@ import { getMint, getAccount } from '@solana/spl-token'
 // Token configuration
 export const TOKEN_CONFIG = {
   STONKS: {
-    mint: import.meta.env.VITE_STONKS_MINT || '6NcdiK8B5KK2DzKvzvCfqi8EHaEqu48fyEzC8Mm9pump',
+    mint: import.meta.env.VITE_STONKS_MINT || 'CwMm1x28qoStmYnsLkRFqQfiQEyBTvKVJjcaSkc2bonk',
     symbol: 'STONKS',
     name: 'Stonks Token',
     decimals: 9,
