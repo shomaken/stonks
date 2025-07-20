@@ -48,6 +48,7 @@ function WalletDashboard() {
 
       // Get all stock token balances
       const stockTokens = getAllStockTokens()
+      console.log('🔍 Stock tokens from service:', stockTokens)
       console.log('🔍 Fetching balances for stock tokens:', stockTokens.map(t => `${t.symbol}: ${t.mint}`))
       
       await Promise.all(
@@ -69,9 +70,10 @@ function WalletDashboard() {
         })
       )
 
+      console.log('📊 Final balances object:', newBalances)
       setBalances(newBalances)
     } catch (error) {
-      console.error('Error fetching balances:', error)
+      console.error('❌ Error fetching balances:', error)
     } finally {
       setLoading(false)
     }
