@@ -5,6 +5,10 @@
 const JUPITER_LITE_API = 'https://price.jup.ag/v4/price'
 // DexScreener API (free, no API key, perfect for Solana tokens)
 const DEXSCREENER_API = 'https://api.dexscreener.com/latest/dex/tokens'
+// Raydium API for additional DEX data
+const RAYDIUM_API = 'https://api.raydium.io/v2/sdk/liquidity/mainnet.json'
+// Birdeye API for Solana token data
+const BIRDEYE_API = 'https://public-api.birdeye.so/public/price'
 
 // Your actual stock token addresses (with "x" suffix tokens)
 const STOCK_TOKEN_ADDRESSES = {
@@ -26,6 +30,9 @@ const priceCache = new Map()
 
 // Clear cache on module load to ensure fresh prices
 priceCache.clear()
+
+// Force refresh all prices when module loads
+console.log('🔄 Price service initialized - fetching fresh DEX prices...')
 
 // Price formatting helpers
 export const formatPrice = (price) => {
@@ -123,6 +130,41 @@ const fetchFromJupiter = async (symbol) => {
         }
     }
     
+    // If still no data, try Birdeye API (excellent for Solana tokens)
+    if (!tokenData) {
+      console.log(`🔍 Trying Birdeye API for ${symbol}...`)
+      
+      try {
+        response = await fetch(
+          `${BIRDEYE_API}?address=${tokenAddress}`,
+          {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'User-Agent': 'Stonks/1.0'
+            }
+          }
+        )
+        
+        if (response.ok) {
+          const birdeyeData = await response.json()
+          console.log(`🔍 Birdeye response for ${symbol}:`, birdeyeData)
+          
+          if (birdeyeData.success && birdeyeData.data?.value) {
+            tokenData = {
+              price: parseFloat(birdeyeData.data.value),
+              priceChange24h: birdeyeData.data.change24h || 0
+            }
+            console.log(`💎 Birdeye price for ${symbol}: $${tokenData.price}`)
+          }
+        } else {
+          console.log(`⚠️ Birdeye API: ${symbol} not found (${response.status})`)
+        }
+      } catch (error) {
+        console.log(`Birdeye API failed for ${symbol}:`, error.message)
+      }
+    }
+    
     // If still no data, try to find it on other Solana DEXes via DexScreener
     if (!tokenData) {
       console.log(`🔍 Trying DexScreener search for ${symbol} token`)
@@ -165,14 +207,85 @@ const fetchFromJupiter = async (symbol) => {
               console.log(`💎 Found ${symbol} on DEX: $${tokenData.price} (Volume: $${bestPair.volume?.h24 || 0})`)
             }
           }
+          
+          // If no Solana pairs, try any chain with the token address
+          if (!tokenData && searchData.pairs && searchData.pairs.length > 0) {
+            const anyChainPairs = searchData.pairs.filter(pair => 
+              pair.priceUsd && 
+              parseFloat(pair.priceUsd) > 0 &&
+              (pair.baseToken?.address === tokenAddress || pair.quoteToken?.address === tokenAddress)
+            )
+            
+            if (anyChainPairs.length > 0) {
+              const bestPair = anyChainPairs.sort((a, b) => 
+                (b.volume?.h24 || 0) - (a.volume?.h24 || 0)
+              )[0]
+              
+              tokenData = {
+                price: parseFloat(bestPair.priceUsd),
+                priceChange24h: bestPair.priceChange?.h24 || 0
+              }
+              console.log(`💎 Found ${symbol} on ${bestPair.chainId}: $${tokenData.price} (Volume: $${bestPair.volume?.h24 || 0})`)
+            }
+          }
         }
       } catch (error) {
         console.log(`DexScreener search failed for ${symbol}:`, error.message)
       }
     }
     
+    // If still no data, try searching by symbol name on DexScreener
     if (!tokenData) {
-      throw new Error('Token not found on Jupiter or DexScreener - may need more liquidity')
+      console.log(`🔍 Trying DexScreener symbol search for ${symbol}...`)
+      
+      try {
+        // Remove 'x' suffix for search
+        const searchSymbol = symbol.replace('x', '').toLowerCase()
+        response = await fetch(
+          `https://api.dexscreener.com/latest/dex/search/?q=${searchSymbol}`,
+          {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'User-Agent': 'Stonks/1.0'
+            }
+          }
+        )
+        
+        if (response.ok) {
+          const searchData = await response.json()
+          console.log(`🔍 DexScreener symbol search for ${symbol}:`, searchData?.pairs?.length || 0, 'pairs found')
+          
+          if (searchData.pairs && searchData.pairs.length > 0) {
+            // Look for Solana pairs with similar symbol names
+            const solanaPairs = searchData.pairs.filter(pair => 
+              pair.chainId === 'solana' && 
+              pair.priceUsd && 
+              parseFloat(pair.priceUsd) > 0 &&
+              (pair.baseToken?.symbol?.toLowerCase().includes(searchSymbol) ||
+               pair.quoteToken?.symbol?.toLowerCase().includes(searchSymbol))
+            )
+            
+            if (solanaPairs.length > 0) {
+              const bestPair = solanaPairs.sort((a, b) => 
+                (b.volume?.h24 || 0) - (a.volume?.h24 || 0)
+              )[0]
+              
+              tokenData = {
+                price: parseFloat(bestPair.priceUsd),
+                priceChange24h: bestPair.priceChange?.h24 || 0
+              }
+              console.log(`💎 Found ${symbol} by symbol search: $${tokenData.price} (${bestPair.baseToken?.symbol || bestPair.quoteToken?.symbol})`)
+            }
+          }
+        }
+      } catch (error) {
+        console.log(`DexScreener symbol search failed for ${symbol}:`, error.message)
+      }
+    }
+    
+    if (!tokenData) {
+      throw new Error('Token not found on Jupiter, Birdeye, or DexScreener - may need more liquidity')
     }
     
     const price = tokenData.price
