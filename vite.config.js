@@ -6,10 +6,17 @@ export default defineConfig({
   plugins: [react()],
   define: {
     global: 'globalThis',
+    // Add Buffer polyfill for Solana/Jupiter libraries
+    'process.env': {},
   },
   resolve: {
     alias: {
       '@': '/src',
+      // Add Buffer polyfill
+      buffer: 'buffer',
     },
+  },
+  optimizeDeps: {
+    include: ['buffer'],
   },
 }) 
