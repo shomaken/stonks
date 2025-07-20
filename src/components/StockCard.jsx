@@ -616,13 +616,7 @@ function StockCard({ stock, stonksPrice }) {
         </div>
       )}
 
-      {/* Price Chart Placeholder */}
-      <div className="mt-4 h-16 bg-gradient-to-r from-gray-800/30 to-gray-700/30 rounded border border-gray-700/50 flex items-center justify-center">
-        <div className="flex items-center space-x-1 text-xs text-gray-500">
-          <span>📊</span>
-          <span>Mini chart coming soon</span>
-        </div>
-      </div>
+
 
       {/* Glow effect on hover */}
       <motion.div
