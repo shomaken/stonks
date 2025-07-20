@@ -10,6 +10,8 @@ import { getAssociatedTokenAddress, getAccount } from '@solana/spl-token'
  */
 export async function getTokenBalance(connection, walletAddress, mintAddress) {
   try {
+    console.log(`🔍 Getting balance for wallet: ${walletAddress}, mint: ${mintAddress}`)
+    
     const walletPublicKey = new PublicKey(walletAddress)
     const mintPublicKey = new PublicKey(mintAddress)
     
@@ -19,27 +21,37 @@ export async function getTokenBalance(connection, walletAddress, mintAddress) {
       walletPublicKey
     )
     
+    console.log(`🔍 Associated token account: ${associatedTokenAddress.toString()}`)
+    
     try {
-      // Try to get the account info
-      const accountInfo = await getAccount(connection, associatedTokenAddress)
+      // Check if the associated token account exists
+      const accountInfo = await connection.getAccountInfo(associatedTokenAddress)
       
-      // Get mint info to determine decimals
-      const mintInfo = await connection.getParsedAccountInfo(mintPublicKey)
-      const decimals = mintInfo.value?.data?.parsed?.info?.decimals || 6
-      
-      // Convert balance to human-readable format
-      const balance = Number(accountInfo.amount) / Math.pow(10, decimals)
-      return balance
-    } catch (accountError) {
-      // Account doesn't exist or has no balance
-      if (accountError.name === 'TokenAccountNotFoundError' || 
-          accountError.message?.includes('could not find account')) {
+      if (!accountInfo) {
+        console.log(`ℹ️ No associated token account found for ${mintAddress}`)
         return 0
       }
-      throw accountError
+      
+      // Get the parsed account info
+      const parsedAccountInfo = await connection.getParsedAccountInfo(associatedTokenAddress)
+      
+      if (!parsedAccountInfo.value || !parsedAccountInfo.value.data.parsed) {
+        console.log(`ℹ️ No parsed data found for token account ${associatedTokenAddress.toString()}`)
+        return 0
+      }
+      
+      const tokenAccountData = parsedAccountInfo.value.data.parsed.info
+      const balance = parseFloat(tokenAccountData.tokenAmount.uiAmount || 0)
+      
+      console.log(`✅ Token balance found: ${balance} for ${mintAddress}`)
+      return balance
+      
+    } catch (accountError) {
+      console.log(`ℹ️ Token account not found for ${mintAddress}:`, accountError.message)
+      return 0
     }
   } catch (error) {
-    console.error(`Error getting token balance for ${mintAddress}:`, error)
+    console.error(`❌ Error getting token balance for ${mintAddress}:`, error)
     return 0
   }
 }
