@@ -293,31 +293,7 @@ function Dashboard() {
           </motion.div>
         )}
 
-        {/* Call to Action */}
-        <motion.div 
-          className="text-center mt-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 1.0 }}
-        >
-          <div className="glass-effect p-8 max-w-2xl mx-auto">
-            <h3 className="font-heading text-2xl font-semibold text-white mb-4">
-              Ready to Start Trading?
-            </h3>
-            <p className="text-gray-300 mb-6">
-              Connect your wallet and start swapping $STONKS for your favorite stocks instantly.
-            </p>
-            <button 
-              className="btn-3d"
-              onClick={() => {
-                document.querySelector('.wallet-button-container button').click()
-              }}
-            >
-              Connect Wallet to Trade
-            </button>
-          </div>
-        </motion.div>
+
 
         {/* Background particles for extra flair */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
