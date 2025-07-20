@@ -23,10 +23,10 @@ function StockCard({ stock, stonksPrice }) {
   // How many STONKS you need for 1 stock token
   const stockToStonksRate = stockUsdPrice / stonksUsdPrice
 
-  // Check wallet balances before swap with Jupiter RPC optimization and retry logic
+  // Check wallet balances before swap with CORS-enabled RPC and retry logic
   const checkWalletBalance = async (direction, amount) => {
     try {
-      console.log('🔍 Checking wallet balances with Jupiter RPC...')
+      console.log('🔍 Checking wallet balances with CORS-enabled RPC...')
       
       const amountLamports = Math.floor(parseFloat(amount) * 1e9)
       
