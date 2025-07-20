@@ -179,8 +179,26 @@ function StockCard({ stock, stonksPrice }) {
              console.log(`🔍 DEBUG: Reverse calculation: ${inputAmount} / 10^${decimals} = ${inputAmount / Math.pow(10, decimals)}`)
            }
          } catch (mintError) {
-           console.warn('Could not get mint info, using 9 decimals:', mintError)
-           inputAmount = Math.floor(parseFloat(amount) * 1e9)
+           console.warn('Could not get mint info, trying alternative method:', mintError)
+           // Try to get decimals from parsed account info
+           try {
+             const mintPublicKey = direction === 'buy' ? new PublicKey(STONKS_TOKEN) : new PublicKey(STOCK_TOKEN)
+             const mintInfo = await connection.getParsedAccountInfo(mintPublicKey)
+             if (mintInfo.value?.data?.parsed?.info?.decimals !== undefined) {
+               const decimals = mintInfo.value.data.parsed.info.decimals
+               inputAmount = Math.floor(parseFloat(amount) * Math.pow(10, decimals))
+               console.log(`💰 Using parsed mint info: ${decimals} decimals, amount = ${inputAmount}`)
+               if (direction === 'sell') {
+                 console.log(`🔍 DEBUG: User typed "${amount}", parsed as ${parseFloat(amount)}, multiplied by 10^${decimals} = ${parseFloat(amount) * Math.pow(10, decimals)}, floored to ${inputAmount}`)
+                 console.log(`🔍 DEBUG: Reverse calculation: ${inputAmount} / 10^${decimals} = ${inputAmount / Math.pow(10, decimals)}`)
+               }
+             } else {
+               throw new Error('Could not get decimals from parsed account info')
+             }
+           } catch (parseError) {
+             console.warn('Could not get parsed mint info, using 9 decimals as fallback:', parseError)
+             inputAmount = Math.floor(parseFloat(amount) * 1e9)
+           }
          }
          
          console.log('🔄 Getting Jupiter quote:', { 
