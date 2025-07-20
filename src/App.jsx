@@ -24,20 +24,20 @@ import Footer from './components/Footer'
 import { checkTokenConfiguration, logTokenConfiguration } from './services/tokenService'
 
 function App() {
-  // Configure Solana network and RPC endpoint with reliable public endpoints
+  // Configure Solana network and RPC endpoint with Jupiter's reliable RPC
   const network = WalletAdapterNetwork.Mainnet
   const endpoint = useMemo(() => {
-    // Use reliable public RPC endpoints (no rate limits)
-    const reliableRpcEndpoints = [
+    // Use Jupiter's RPC pool - optimized for swaps and more reliable
+    const jupiterRpcEndpoints = [
+      'https://jupiter.rpcpool.com',
       'https://solana-api.projectserum.com',
       'https://rpc.ankr.com/solana',
-      'https://api.mainnet-beta.solana.com',
-      'https://solana.public-rpc.com'
+      'https://api.mainnet-beta.solana.com'
     ]
     
-    // Use environment variable or default to Project Serum endpoint
-    // Project Serum endpoint is more reliable and has fewer restrictions
-    return import.meta.env.VITE_SOLANA_RPC_URL || reliableRpcEndpoints[0]
+    // Use environment variable or default to Jupiter RPC endpoint
+    // Jupiter RPC is specifically optimized for DEX operations and swaps
+    return import.meta.env.VITE_SOLANA_RPC_URL || jupiterRpcEndpoints[0]
   }, [network])
 
   // Check token configuration on app startup
