@@ -353,8 +353,8 @@ function StockCard({ stock, stonksPrice }) {
            console.log('✅ Transaction confirmed:', confirmation)
            
            // Calculate actual amounts swapped
-           const inputTokenName = direction === 'buy' ? 'STONKS' : stock.symbol
-           const outputTokenName = direction === 'buy' ? stock.symbol : 'STONKS'
+           const inputTokenName = direction === 'buy' ? 'ST0NKS' : stock.symbol
+           const outputTokenName = direction === 'buy' ? stock.symbol : 'ST0NKS'
            const outputAmountFormatted = (parseFloat(quoteResponse.outAmount) / 1e9).toFixed(6)
            
            toast.success(`🎉 Swap successful! Traded ${amount} ${inputTokenName} for ${outputAmountFormatted} ${outputTokenName}`)
