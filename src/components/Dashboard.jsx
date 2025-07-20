@@ -28,7 +28,7 @@ function Dashboard() {
         setLastUpdated(new Date())
         
         // Show success toast for loaded tokens
-        toast.success(`🚀 Loaded ${stockData.length} stock tokens + $STONKS with real-time prices!`)
+        toast.success(`🚀 Loaded ${stockData.length} stock tokens + $ST0NKS with real-time prices!`)
         
         // Show warning if STONKS token not configured
         if (!TOKEN_CONFIG.STONKS.mint) {
@@ -79,7 +79,7 @@ function Dashboard() {
       setStocks(stockData)
       setStonksPrice(stonksData)
       setLastUpdated(new Date())
-      toast.success(`💎 Refreshed ${stockData.length} stock + STONKS prices!`)
+      toast.success(`💎 Refreshed ${stockData.length} stock + ST0NKS prices!`)
     } catch (error) {
       console.error('Failed to refresh stock data:', error)
       toast.error('Failed to refresh prices')
