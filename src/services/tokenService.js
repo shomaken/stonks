@@ -7,9 +7,9 @@ export const TOKEN_CONFIG = {
   STONKS: {
     mint: import.meta.env.VITE_STONKS_MINT || 'CwMm1x28qoStmYnsLkRFqQfiQEyBTvKVJjcaSkc2bonk',
     symbol: 'STONKS',
-    name: 'Stonks Token',
+    name: 'St0nks Token',
     decimals: 9,
-    description: 'The main trading token for the Stonks platform'
+    description: 'The main trading token for the St0nks platform'
   },
   STOCKS: {
     NVDAX: {
