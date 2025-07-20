@@ -32,7 +32,7 @@ function Dashboard() {
         
         // Show warning if STONKS token not configured
         if (!TOKEN_CONFIG.STONKS.mint) {
-          toast.error('⚠️ STONKS token not configured. Trading will be limited.')
+          toast.error('⚠️ ST0NKS token not configured. Trading will be limited.')
         }
       } catch (error) {
         console.error('Failed to load stock data:', error)
@@ -59,7 +59,7 @@ function Dashboard() {
         setStocks(stockData)
         setStonksPrice(stonksData)
         setLastUpdated(new Date())
-        console.log(`✅ Updated ${stockData.length} stock + STONKS prices automatically`)
+        console.log(`✅ Updated ${stockData.length} stock + ST0NKS prices automatically`)
       } catch (error) {
         console.warn('Failed to auto-refresh stock prices:', error)
       }
