@@ -51,13 +51,16 @@ function StockCard({ stock, stonksPrice }) {
           8000
         )
         const balance = parseInt(accountInfo.value.amount)
+        const decimals = accountInfo.value.decimals || 9 // Use actual decimals from token account
+        const divisor = Math.pow(10, decimals)
+        const amountRequired = Math.floor(parseFloat(amount) * divisor)
         
-        if (balance < amountLamports) {
-          const balanceFormatted = (balance / 1e9).toFixed(6)
+        if (balance < amountRequired) {
+          const balanceFormatted = (balance / divisor).toFixed(6)
           throw new Error(`Insufficient STONKS balance. You have ${balanceFormatted} STONKS, need ${amount}`)
         }
         
-        console.log(`✅ STONKS balance check passed: ${(balance / 1e9).toFixed(6)} available`)
+        console.log(`✅ STONKS balance check passed: ${(balance / divisor).toFixed(6)} available (${decimals} decimals)`)
         
       } else {
         // Check stock token balance for selling with retry
@@ -80,13 +83,16 @@ function StockCard({ stock, stonksPrice }) {
           8000
         )
         const balance = parseInt(accountInfo.value.amount)
+        const decimals = accountInfo.value.decimals || 9 // Use actual decimals from token account
+        const divisor = Math.pow(10, decimals)
+        const amountRequired = Math.floor(parseFloat(amount) * divisor)
         
-        if (balance < amountLamports) {
-          const balanceFormatted = (balance / 1e9).toFixed(6)
+        if (balance < amountRequired) {
+          const balanceFormatted = (balance / divisor).toFixed(6)
           throw new Error(`Insufficient ${stock.symbol} balance. You have ${balanceFormatted} ${stock.symbol}, need ${amount}`)
         }
         
-        console.log(`✅ ${stock.symbol} balance check passed: ${(balance / 1e9).toFixed(6)} available`)
+        console.log(`✅ ${stock.symbol} balance check passed: ${(balance / divisor).toFixed(6)} available (${decimals} decimals)`)
       }
       
       // Check SOL balance for transaction fees with retry
@@ -152,14 +158,26 @@ function StockCard({ stock, stonksPrice }) {
            ? STOCK_TOKEN  // Stock token
            : STONKS_TOKEN // STONKS token
          
-         // Calculate the correct input amount based on what the user entered
-         let inputAmount
+         // Get token decimals for accurate amount calculation
+         const { getMint } = await import('@solana/spl-token')
          
-         if (direction === 'buy') {
-           // User entered STONKS amount, convert to lamports (9 decimals)
-           inputAmount = Math.floor(parseFloat(amount) * 1e9)
-         } else {
-           // User entered stock token amount, convert to lamports (9 decimals for most tokens)
+         let inputAmount
+         try {
+           if (direction === 'buy') {
+             // User entered STONKS amount - get STONKS decimals
+             const stonksMint = await getMint(connection, new PublicKey(STONKS_TOKEN))
+             const decimals = stonksMint.decimals
+             inputAmount = Math.floor(parseFloat(amount) * Math.pow(10, decimals))
+             console.log(`💰 STONKS input: ${amount} tokens = ${inputAmount} smallest units (${decimals} decimals)`)
+           } else {
+             // User entered stock token amount - get stock token decimals  
+             const stockMint = await getMint(connection, new PublicKey(STOCK_TOKEN))
+             const decimals = stockMint.decimals
+             inputAmount = Math.floor(parseFloat(amount) * Math.pow(10, decimals))
+             console.log(`💰 ${stock.symbol} input: ${amount} tokens = ${inputAmount} smallest units (${decimals} decimals)`)
+           }
+         } catch (mintError) {
+           console.warn('Could not get mint info, using 9 decimals:', mintError)
            inputAmount = Math.floor(parseFloat(amount) * 1e9)
          }
          
