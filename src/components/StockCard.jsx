@@ -131,7 +131,7 @@ function StockCard({ stock, stonksPrice }) {
           throw new Error(`Insufficient ST0NKS balance. You have ${balanceFormatted} ST0NKS, need ${amount}`)
         }
         
-        console.log(`✅ STONKS balance check passed: ${(balance / divisor).toFixed(6)} available (${decimals} decimals)`)
+        console.log(`✅ ST0NKS balance check passed: ${(balance / divisor).toFixed(6)} available (${decimals} decimals)`)
         
       } else {
         // Check stock token balance for selling with retry
@@ -239,7 +239,7 @@ function StockCard({ stock, stonksPrice }) {
              const stonksMint = await getMint(connection, new PublicKey(STONKS_TOKEN))
              const decimals = stonksMint.decimals
              inputAmount = Math.floor(parseFloat(amount) * Math.pow(10, decimals))
-             console.log(`💰 STONKS input: ${amount} tokens = ${inputAmount} smallest units (${decimals} decimals)`)
+             console.log(`💰 ST0NKS input: ${amount} tokens = ${inputAmount} smallest units (${decimals} decimals)`)
            } else {
              // User entered stock token amount - get stock token decimals  
              const stockMint = await getMint(connection, new PublicKey(STOCK_TOKEN))
@@ -296,7 +296,7 @@ function StockCard({ stock, stonksPrice }) {
          })
          
          if (!quoteResponse) {
-           throw new Error(`No Jupiter route found for ${direction === 'buy' ? 'STONKS' : stock.symbol} → ${direction === 'buy' ? stock.symbol : 'STONKS'}`)
+           throw new Error(`No Jupiter route found for ${direction === 'buy' ? 'ST0NKS' : stock.symbol} → ${direction === 'buy' ? stock.symbol : 'ST0NKS'}`)
          }
          
          console.log('✅ Jupiter quote received:', {
@@ -370,9 +370,9 @@ function StockCard({ stock, stonksPrice }) {
          
                  // More specific error messages with helpful suggestions
         if (jupiterError.message?.includes('No route found') || jupiterError.message?.includes('error code') || jupiterError.message?.includes('Response returned an error code')) {
-          throw new Error(`💡 Amount too small! Try swapping more ${direction === 'buy' ? 'STONKS' : stock.symbol} for better liquidity.`)
+          throw new Error(`💡 Amount too small! Try swapping more ${direction === 'buy' ? 'ST0NKS' : stock.symbol} for better liquidity.`)
         } else if (jupiterError.message?.includes('Insufficient')) {
-          throw new Error(`❌ Insufficient ${direction === 'buy' ? 'STONKS' : stock.symbol} balance in your wallet.`)
+                      throw new Error(`❌ Insufficient ${direction === 'buy' ? 'ST0NKS' : stock.symbol} balance in your wallet.`)
         } else if (jupiterError.message?.includes('User rejected')) {
           throw new Error('❌ Transaction was rejected. Please try again.')
         } else {
