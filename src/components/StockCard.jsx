@@ -81,9 +81,11 @@ function StockCard({ stock, stonksPrice }) {
     } catch (error) {
       console.error('❌ Balance check failed:', error)
       
-      // Handle RPC timeout errors specifically
+      // Handle RPC errors specifically
       if (error.message?.includes('Failed to fetch') || error.message?.includes('timeout')) {
         throw new Error('RPC connection timeout. Please try again in a few seconds.')
+      } else if (error.message?.includes('403') || error.message?.includes('Access forbidden')) {
+        throw new Error('RPC access denied. Please try again or refresh the page.')
       }
       
       throw error
@@ -265,6 +267,8 @@ function StockCard({ stock, stonksPrice }) {
       // Handle specific error types
       if (error.message?.includes('RPC connection timeout')) {
         toast.error('🔄 RPC connection timeout. Please try again in a few seconds.')
+      } else if (error.message?.includes('RPC access denied')) {
+        toast.error('🚫 RPC access denied. Please refresh the page and try again.')
       } else if (error.message?.includes('No liquidity route')) {
         toast.error('💧 No liquidity available for this token pair. Try a different amount.')
       } else if (error.message?.includes('Insufficient')) {
