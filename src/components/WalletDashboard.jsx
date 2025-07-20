@@ -38,12 +38,12 @@ function WalletDashboard() {
         newBalances.STONKS = {
           balance: stonksBalance,
           symbol: 'STONKS',
-          name: 'Stonks Token',
+          name: 'St0nks Token',
           decimals: TOKEN_CONFIG.STONKS.decimals
         }
       } catch (error) {
         console.error('Error fetching STONKS balance:', error)
-        newBalances.STONKS = { balance: 0, symbol: 'STONKS', name: 'Stonks Token', decimals: 9 }
+        newBalances.STONKS = { balance: 0, symbol: 'STONKS', name: 'St0nks Token', decimals: 9 }
       }
 
       // Get all stock token balances
