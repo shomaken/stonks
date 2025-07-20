@@ -4,27 +4,32 @@ import { motion } from 'framer-motion'
 function Info() {
   const features = [
     {
+      icon: "🎉",
+      title: "Meme Magic Meets Markets",
+      description: "Ride the viral stonks craze straight into on‑chain trading fun."
+    },
+    {
+      icon: "🌐",
+      title: "First‑Ever Tradable Meme",
+      description: "Put your $STONKS to work—you're not just HODLing, you're investing."
+    },
+    {
       icon: "⚡",
-      title: "Instant Trading",
-      description: "Own stock-pegged SPL tokens instantly with zero settlement time"
+      title: "Instant Ownership",
+      description: "Swap on‑chain and hold your favorite stock tokens in your wallet instantly."
     },
     {
-      icon: "🔗",
-      title: "Seamless Swaps", 
-      description: "Seamless wallet-to-wallet trading powered by Jupiter's liquidity"
-    },
-    {
-      icon: "🔒",
-      title: "Zero Backend",
-      description: "Zero backend — powered entirely by Jupiter's decentralized infrastructure"
+      icon: "🔄",
+      title: "Peer‑to‑Peer Swaps",
+      description: "One‑click trades—no middlemen, no delays."
     }
   ]
 
   const swapSteps = [
-    { step: "1", action: "Connect", icon: "🔌" },
-    { step: "2", action: "Select", icon: "📊" },
-    { step: "3", action: "Swap", icon: "⚡" },
-    { step: "4", action: "Trade", icon: "💎" }
+    { step: "1", action: "Connect Wallet", icon: "🔌" },
+    { step: "2", action: "Select Stock Token", icon: "📊" },
+    { step: "3", action: "Swap $STONKS ⟷ Stock", icon: "⚡" },
+    { step: "4", action: "Hold & Profit", icon: "💎" }
   ]
 
   return (
@@ -49,7 +54,7 @@ function Info() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              Why{' '}
+              🚀 Why{' '}
               <span className="text-stonks-green bg-gradient-to-r from-stonks-green to-green-400 bg-clip-text text-transparent">
                 Stonks?
               </span>
@@ -62,7 +67,7 @@ function Info() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              Experience the future of stock trading with blockchain technology
+              Stonks isn't just a meme—it's the first meme token you can actually use to buy and sell real stock‑pegged SPL tokens. Here's what makes it legendary:
             </motion.p>
 
             <div className="space-y-8">
@@ -128,7 +133,7 @@ function Info() {
               {/* Swap flow container */}
               <div className="glass-effect p-8 text-center">
                 <h3 className="font-heading text-2xl font-semibold text-white mb-8">
-                  How It Works
+                  🔧 How It Works
                 </h3>
                 
                 {/* Swap steps */}
@@ -156,10 +161,10 @@ function Info() {
                       <div className="flex-1 text-left">
                         <div className="text-white font-semibold">{step.action}</div>
                         <div className="text-gray-400 text-sm">
-                          {step.step === "1" && "Your Wallet"}
-                          {step.step === "2" && "Stock Token"}
-                          {step.step === "3" && "$STONKS ⟷ Stock"}
-                          {step.step === "4" && "Hold & Profit"}
+                          {step.step === "1" && "🔌 Connect Wallet"}
+                          {step.step === "2" && "📊 Select Stock Token"}
+                          {step.step === "3" && "⚡ Swap $STONKS ⟷ Stock"}
+                          {step.step === "4" && "💎 Hold & Profit"}
                         </div>
                       </div>
                       
