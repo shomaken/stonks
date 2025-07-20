@@ -600,13 +600,7 @@ function StockCard({ stock, stonksPrice }) {
               <span>Sell {stock.symbol}</span>
             </div>
           </motion.button>
-          
-          {/* Jupiter availability indicator */}
-          {['MCDx', 'METAx'].includes(stock.symbol) && (
-            <div className="text-xs text-yellow-400 text-center mt-2 px-2 py-1 bg-yellow-400/10 border border-yellow-400/20 rounded">
-              ⚠️ Limited Jupiter liquidity - trades may fail
-            </div>
-          )}
+
 
           {!connected && (
             <p className="text-xs text-gray-500 text-center mt-2">
