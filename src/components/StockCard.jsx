@@ -420,9 +420,6 @@ function StockCard({ stock, stonksPrice }) {
                 min="0"
                 step="any"
               />
-              <div className="text-xs text-gray-500 mt-1">
-                💡 Tip: Use larger amounts (10+ STONKS) for better liquidity
-              </div>
             </div>
             
             {amount && parseFloat(amount) > 0 && (
