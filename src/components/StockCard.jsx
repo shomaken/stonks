@@ -5,6 +5,8 @@ import { PublicKey, Transaction, VersionedTransaction } from '@solana/web3.js'
 import toast from 'react-hot-toast'
 import { formatPrice, formatPriceChange } from '../services/stockPriceService'
 import { executeRpcWithRetry, getRpcErrorMessage } from '../utils/rpcUtils'
+import WalletConnectionModal from './WalletConnectionModal'
+
 
 function StockCard({ stock, stonksPrice }) {
   const { connected, publicKey, sendTransaction } = useWallet()
@@ -12,6 +14,8 @@ function StockCard({ stock, stonksPrice }) {
   const [isLoading, setIsLoading] = useState(false)
   const [swapDirection, setSwapDirection] = useState(null) // 'buy' or 'sell'
   const [amount, setAmount] = useState('')
+  const [showWalletModal, setShowWalletModal] = useState(false)
+
 
   // Real exchange rate calculation based on actual token prices
   const stonksUsdPrice = stonksPrice?.price || 0.001
@@ -402,7 +406,7 @@ function StockCard({ stock, stonksPrice }) {
 
   const handleSwapClick = (direction) => {
     if (!connected) {
-      toast.error('Please connect your wallet to trade')
+      setShowWalletModal(true)
       return
     }
     setSwapDirection(direction)
@@ -577,10 +581,9 @@ function StockCard({ stock, stonksPrice }) {
         <div className="space-y-3">
           <motion.button
             onClick={() => handleSwapClick('buy')}
-            className="w-full btn-3d bg-green-600 hover:bg-green-500"
+            className={`w-full btn-3d ${connected ? 'bg-green-600 hover:bg-green-500' : 'bg-green-600/50 hover:bg-green-500/70'}`}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            disabled={!connected}
           >
             <div className="flex items-center justify-center space-x-2">
               <span>📈</span>
@@ -590,10 +593,9 @@ function StockCard({ stock, stonksPrice }) {
           
           <motion.button
             onClick={() => handleSwapClick('sell')}
-            className="w-full btn-3d bg-red-600 hover:bg-red-500"
+            className={`w-full btn-3d ${connected ? 'bg-red-600 hover:bg-red-500' : 'bg-red-600/50 hover:bg-red-500/70'}`}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            disabled={!connected}
           >
             <div className="flex items-center justify-center space-x-2">
               <span>📉</span>
@@ -621,6 +623,12 @@ function StockCard({ stock, stonksPrice }) {
           boxShadow: '0 0 30px rgba(63, 191, 63, 0.2)',
         }}
         transition={{ duration: 0.3 }}
+      />
+
+      {/* Wallet Connection Modal */}
+      <WalletConnectionModal 
+        isOpen={showWalletModal} 
+        onClose={() => setShowWalletModal(false)} 
       />
     </motion.div>
   )
