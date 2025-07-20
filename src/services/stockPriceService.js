@@ -24,6 +24,9 @@ const STOCK_TOKEN_ADDRESSES = {
 const CACHE_DURATION = 30000 // 30 seconds
 const priceCache = new Map()
 
+// Clear cache on module load to ensure fresh prices
+priceCache.clear()
+
 // Price formatting helpers
 export const formatPrice = (price) => {
   if (!price && price !== 0) return '--'
@@ -69,9 +72,12 @@ const fetchFromJupiter = async (symbol) => {
     
     if (response.ok) {
       const data = await response.json()
+      console.log(`🔍 Jupiter API response for ${symbol}:`, data)
       tokenData = data.data?.[tokenAddress]
       if (tokenData) {
         console.log(`✅ Jupiter price for ${symbol}: $${tokenData.price}`)
+      } else {
+        console.log(`⚠️ Jupiter API: ${symbol} token data not found in response`)
       }
     } else {
       console.log(`⚠️ Jupiter API: ${symbol} not found (${response.status})`)
@@ -193,18 +199,18 @@ const fetchFromJupiter = async (symbol) => {
 const getTokenNotFoundFallback = (symbol) => {
   console.warn(`⚠️ Token ${symbol} not found on DEXes - using realistic mock price`)
   
-  // Generate realistic mock prices based on symbol
+  // Generate realistic mock prices based on symbol (lower values for new tokens)
   const mockPrices = {
     STONKS: 0.0015, // $0.0015 for STONKS token
-    NVDAx: 0.85,    // Mock NVIDIA price
-    TSLAx: 0.95,    // Mock Tesla price
-    SPYx: 0.78,     // Mock SPY price
-    CRCLx: 0.92,    // Mock Circle price
-    MSTRx: 0.88,    // Mock MicroStrategy price
-    GOOGLx: 0.76,   // Mock Google price
-    AAPLx: 0.82,    // Mock Apple price
-    MCDx: 0.91,     // Mock McDonald's price
-    METAx: 0.89     // Mock Meta price
+    NVDAx: 0.0012,  // Mock NVIDIA price (lower for new token)
+    TSLAx: 0.0018,  // Mock Tesla price (lower for new token)
+    SPYx: 0.0010,   // Mock SPY price (lower for new token)
+    CRCLx: 0.0014,  // Mock Circle price (lower for new token)
+    MSTRx: 0.0016,  // Mock MicroStrategy price (lower for new token)
+    GOOGLx: 0.0013, // Mock Google price (lower for new token)
+    AAPLx: 0.0017,  // Mock Apple price (lower for new token)
+    MCDx: 0.0011,   // Mock McDonald's price (lower for new token)
+    METAx: 0.0019   // Mock Meta price (lower for new token)
   }
   
   const basePrice = mockPrices[symbol] || 0.001
