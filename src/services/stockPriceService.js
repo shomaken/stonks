@@ -2,13 +2,9 @@
 // Fetches real-time prices from Jupiter for your actual stock tokens on Solana
 
 // Jupiter Lite API (free tier, no API key required)
-const JUPITER_LITE_API = 'https://price.jup.ag/v4/price'
+const JUPITER_LITE_API = 'https://lite-api.jup.ag/v4/price'
 // DexScreener API (free, no API key, perfect for Solana tokens)
 const DEXSCREENER_API = 'https://api.dexscreener.com/latest/dex/tokens'
-// Raydium API for additional DEX data
-const RAYDIUM_API = 'https://api.raydium.io/v2/sdk/liquidity/mainnet.json'
-// Birdeye API for Solana token data
-const BIRDEYE_API = 'https://public-api.birdeye.so/public/price'
 
 // Your actual stock token addresses (with "x" suffix tokens)
 const STOCK_TOKEN_ADDRESSES = {
@@ -27,12 +23,6 @@ const STOCK_TOKEN_ADDRESSES = {
 // Cache configuration
 const CACHE_DURATION = 30000 // 30 seconds
 const priceCache = new Map()
-
-// Clear cache on module load to ensure fresh prices
-priceCache.clear()
-
-// Force refresh all prices when module loads
-console.log('🔄 Price service initialized - fetching fresh DEX prices...')
 
 // Price formatting helpers
 export const formatPrice = (price) => {
@@ -79,20 +69,15 @@ const fetchFromJupiter = async (symbol) => {
     
     if (response.ok) {
       const data = await response.json()
-      console.log(`🔍 Jupiter API response for ${symbol}:`, data)
       tokenData = data.data?.[tokenAddress]
-      if (tokenData) {
-        console.log(`✅ Jupiter price for ${symbol}: $${tokenData.price}`)
-      } else {
-        console.log(`⚠️ Jupiter API: ${symbol} token data not found in response`)
-      }
+      console.log(`✅ Jupiter Lite API response for ${symbol}:`, tokenData)
     } else {
-      console.log(`⚠️ Jupiter API: ${symbol} not found (${response.status})`)
+      console.log(`❌ Jupiter Lite API error for ${symbol}: ${response.status}`)
     }
     
     // If Jupiter fails, try DexScreener API (excellent for Solana tokens)
     if (!tokenData) {
-      console.log(`🔍 Checking DexScreener for ${symbol}...`)
+      console.log(`🔍 Trying DexScreener API for ${symbol}`)
       
       response = await fetch(
         `${DEXSCREENER_API}/${tokenAddress}`,
@@ -105,63 +90,29 @@ const fetchFromJupiter = async (symbol) => {
         }
       )
       
-              if (response.ok) {
-          const dexData = await response.json()
-          
-          // DexScreener returns pairs, we need to find the best one (usually USDC pair)
-          if (dexData.pairs && dexData.pairs.length > 0) {
-            // Find USDC pair or take the first liquid pair
-            const usdcPair = dexData.pairs.find(pair => 
-              pair.quoteToken?.symbol === 'USDC' || 
-              pair.quoteToken?.symbol === 'USDT' ||
-              pair.baseToken?.symbol === 'SOL'
-            ) || dexData.pairs[0]
-            
-            if (usdcPair && usdcPair.priceUsd) {
-              tokenData = {
-                price: parseFloat(usdcPair.priceUsd),
-                priceChange24h: usdcPair.priceChange?.h24 || 0
-              }
-              console.log(`💎 DexScreener price for ${symbol}: $${tokenData.price}`)
-            }
-          }
-        } else {
-          console.log(`⚠️ DexScreener: ${symbol} not found (${response.status})`)
-        }
-    }
-    
-    // If still no data, try Birdeye API (excellent for Solana tokens)
-    if (!tokenData) {
-      console.log(`🔍 Trying Birdeye API for ${symbol}...`)
-      
-      try {
-        response = await fetch(
-          `${BIRDEYE_API}?address=${tokenAddress}`,
-          {
-            method: 'GET',
-            headers: {
-              'Accept': 'application/json',
-              'User-Agent': 'Stonks/1.0'
-            }
-          }
-        )
+      if (response.ok) {
+        const dexData = await response.json()
+        console.log(`✅ DexScreener response for ${symbol}:`, dexData)
         
-        if (response.ok) {
-          const birdeyeData = await response.json()
-          console.log(`🔍 Birdeye response for ${symbol}:`, birdeyeData)
+        // DexScreener returns pairs, we need to find the best one (usually USDC pair)
+        if (dexData.pairs && dexData.pairs.length > 0) {
+          // Find USDC pair or take the first liquid pair
+          const usdcPair = dexData.pairs.find(pair => 
+            pair.quoteToken?.symbol === 'USDC' || 
+            pair.quoteToken?.symbol === 'USDT' ||
+            pair.baseToken?.symbol === 'SOL'
+          ) || dexData.pairs[0]
           
-          if (birdeyeData.success && birdeyeData.data?.value) {
+          if (usdcPair && usdcPair.priceUsd) {
             tokenData = {
-              price: parseFloat(birdeyeData.data.value),
-              priceChange24h: birdeyeData.data.change24h || 0
+              price: parseFloat(usdcPair.priceUsd),
+              priceChange24h: usdcPair.priceChange?.h24 || 0
             }
-            console.log(`💎 Birdeye price for ${symbol}: $${tokenData.price}`)
+            console.log(`💎 Found ${symbol} price on DexScreener: $${tokenData.price}`)
           }
-        } else {
-          console.log(`⚠️ Birdeye API: ${symbol} not found (${response.status})`)
         }
-      } catch (error) {
-        console.log(`Birdeye API failed for ${symbol}:`, error.message)
+      } else {
+        console.log(`❌ DexScreener API error for ${symbol}: ${response.status}`)
       }
     }
     
@@ -207,91 +158,20 @@ const fetchFromJupiter = async (symbol) => {
               console.log(`💎 Found ${symbol} on DEX: $${tokenData.price} (Volume: $${bestPair.volume?.h24 || 0})`)
             }
           }
-          
-          // If no Solana pairs, try any chain with the token address
-          if (!tokenData && searchData.pairs && searchData.pairs.length > 0) {
-            const anyChainPairs = searchData.pairs.filter(pair => 
-              pair.priceUsd && 
-              parseFloat(pair.priceUsd) > 0 &&
-              (pair.baseToken?.address === tokenAddress || pair.quoteToken?.address === tokenAddress)
-            )
-            
-            if (anyChainPairs.length > 0) {
-              const bestPair = anyChainPairs.sort((a, b) => 
-                (b.volume?.h24 || 0) - (a.volume?.h24 || 0)
-              )[0]
-              
-              tokenData = {
-                price: parseFloat(bestPair.priceUsd),
-                priceChange24h: bestPair.priceChange?.h24 || 0
-              }
-              console.log(`💎 Found ${symbol} on ${bestPair.chainId}: $${tokenData.price} (Volume: $${bestPair.volume?.h24 || 0})`)
-            }
-          }
         }
       } catch (error) {
         console.log(`DexScreener search failed for ${symbol}:`, error.message)
       }
     }
     
-    // If still no data, try searching by symbol name on DexScreener
     if (!tokenData) {
-      console.log(`🔍 Trying DexScreener symbol search for ${symbol}...`)
-      
-      try {
-        // Remove 'x' suffix for search
-        const searchSymbol = symbol.replace('x', '').toLowerCase()
-        response = await fetch(
-          `https://api.dexscreener.com/latest/dex/search/?q=${searchSymbol}`,
-          {
-            method: 'GET',
-            headers: {
-              'Accept': 'application/json',
-              'User-Agent': 'Stonks/1.0'
-            }
-          }
-        )
-        
-        if (response.ok) {
-          const searchData = await response.json()
-          console.log(`🔍 DexScreener symbol search for ${symbol}:`, searchData?.pairs?.length || 0, 'pairs found')
-          
-          if (searchData.pairs && searchData.pairs.length > 0) {
-            // Look for Solana pairs with similar symbol names
-            const solanaPairs = searchData.pairs.filter(pair => 
-              pair.chainId === 'solana' && 
-              pair.priceUsd && 
-              parseFloat(pair.priceUsd) > 0 &&
-              (pair.baseToken?.symbol?.toLowerCase().includes(searchSymbol) ||
-               pair.quoteToken?.symbol?.toLowerCase().includes(searchSymbol))
-            )
-            
-            if (solanaPairs.length > 0) {
-              const bestPair = solanaPairs.sort((a, b) => 
-                (b.volume?.h24 || 0) - (a.volume?.h24 || 0)
-              )[0]
-              
-              tokenData = {
-                price: parseFloat(bestPair.priceUsd),
-                priceChange24h: bestPair.priceChange?.h24 || 0
-              }
-              console.log(`💎 Found ${symbol} by symbol search: $${tokenData.price} (${bestPair.baseToken?.symbol || bestPair.quoteToken?.symbol})`)
-            }
-          }
-        }
-      } catch (error) {
-        console.log(`DexScreener symbol search failed for ${symbol}:`, error.message)
-      }
-    }
-    
-    if (!tokenData) {
-      throw new Error('Token not found on Jupiter, Birdeye, or DexScreener - may need more liquidity')
+      throw new Error('Token not found on Jupiter or DexScreener - may need more liquidity')
     }
     
     const price = tokenData.price
     const change = tokenData.priceChange24h || 0
     
-    console.log(`💰 ${symbol}: $${price} (${change > 0 ? '+' : ''}${change?.toFixed(2)}%)`)
+    console.log(`💰 ${symbol}: $${price} (${change > 0 ? '+' : ''}${change?.toFixed(2)}%) - REAL TOKEN PRICE FROM DEX`)
     
     return {
       symbol,
@@ -310,30 +190,13 @@ const fetchFromJupiter = async (symbol) => {
 
 // Fallback when token is not found on any DEX
 const getTokenNotFoundFallback = (symbol) => {
-  console.warn(`⚠️ Token ${symbol} not found on DEXes - using realistic mock price`)
-  
-  // Generate realistic mock prices based on symbol (lower values for new tokens)
-  const mockPrices = {
-    STONKS: 0.0015, // $0.0015 for STONKS token
-    NVDAx: 0.0012,  // Mock NVIDIA price (lower for new token)
-    TSLAx: 0.0018,  // Mock Tesla price (lower for new token)
-    SPYx: 0.0010,   // Mock SPY price (lower for new token)
-    CRCLx: 0.0014,  // Mock Circle price (lower for new token)
-    MSTRx: 0.0016,  // Mock MicroStrategy price (lower for new token)
-    GOOGLx: 0.0013, // Mock Google price (lower for new token)
-    AAPLx: 0.0017,  // Mock Apple price (lower for new token)
-    MCDx: 0.0011,   // Mock McDonald's price (lower for new token)
-    METAx: 0.0019   // Mock Meta price (lower for new token)
-  }
-  
-  const basePrice = mockPrices[symbol] || 0.001
-  const randomChange = (Math.random() - 0.5) * 10 // -5% to +5% random change
+  console.warn(`⚠️ Token ${symbol} not found on DEXes - needs more liquidity or trading volume`)
   
   return {
     symbol,
-    price: basePrice,
-    change: randomChange,
-    changePercent: randomChange,
+    price: 0.001, // $0.001 default for new tokens
+    change: 0,
+    changePercent: 0,
     timestamp: Date.now(),
     source: 'Token Not Listed Yet',
     error: 'Token needs more liquidity to appear on DEXes'
