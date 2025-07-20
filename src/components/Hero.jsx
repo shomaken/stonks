@@ -4,6 +4,7 @@ import { useWallet } from '@solana/wallet-adapter-react'
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 import logo from '../assets/logo.png'
 import stonksGuy from '../assets/standing-stonksguy.png'
+import WalletDashboard from './WalletDashboard'
 
 function Hero() {
   const { connected } = useWallet()
@@ -123,12 +124,24 @@ function Hero() {
               )}
             </motion.div>
 
+            {/* Wallet Dashboard */}
+            {connected && (
+              <motion.div 
+                className="mt-8"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 1.0 }}
+              >
+                <WalletDashboard />
+              </motion.div>
+            )}
+
             {/* Stats */}
             <motion.div 
               className="flex flex-wrap gap-8 justify-center lg:justify-start mt-12"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.0 }}
+              transition={{ duration: 0.8, delay: 1.2 }}
             >
               <div className="text-center">
                 <div className="text-2xl font-bold text-stonks-green">$0</div>
