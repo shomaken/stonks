@@ -175,6 +175,8 @@ function StockCard({ stock, stonksPrice }) {
              const decimals = stockMint.decimals
              inputAmount = Math.floor(parseFloat(amount) * Math.pow(10, decimals))
              console.log(`💰 ${stock.symbol} input: ${amount} tokens = ${inputAmount} smallest units (${decimals} decimals)`)
+             console.log(`🔍 DEBUG: User typed "${amount}", parsed as ${parseFloat(amount)}, multiplied by 10^${decimals} = ${parseFloat(amount) * Math.pow(10, decimals)}, floored to ${inputAmount}`)
+             console.log(`🔍 DEBUG: Reverse calculation: ${inputAmount} / 10^${decimals} = ${inputAmount / Math.pow(10, decimals)}`)
            }
          } catch (mintError) {
            console.warn('Could not get mint info, using 9 decimals:', mintError)
