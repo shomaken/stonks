@@ -44,13 +44,13 @@ function Footer() {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <p className="text-gray-300 font-medium">
-              Made with{' '}
+              This Website is made
               <motion.span
                 className="text-red-500 text-xl"
                 animate={{ scale: [1, 1.2, 1] }}
                 transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
               >
-                🚀
+                
               </motion.span>
               {' '}by{' '}
               <a 
