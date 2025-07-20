@@ -15,41 +15,26 @@ export async function getTokenBalance(connection, walletAddress, mintAddress) {
     const walletPublicKey = new PublicKey(walletAddress)
     const mintPublicKey = new PublicKey(mintAddress)
     
-    // Get the associated token account address
-    const associatedTokenAddress = await getAssociatedTokenAddress(
-      mintPublicKey,
-      walletPublicKey
+    // Use the same method as StockCard: find ALL token accounts for this mint
+    const tokenAccounts = await connection.getTokenAccountsByOwner(
+      walletPublicKey,
+      { mint: mintPublicKey }
     )
     
-    console.log(`🔍 Associated token account: ${associatedTokenAddress.toString()}`)
+    console.log(`🔍 Found ${tokenAccounts.value.length} token accounts for ${mintAddress}`)
     
-    try {
-      // Check if the associated token account exists
-      const accountInfo = await connection.getAccountInfo(associatedTokenAddress)
-      
-      if (!accountInfo) {
-        console.log(`ℹ️ No associated token account found for ${mintAddress}`)
-        return 0
-      }
-      
-      // Get the parsed account info
-      const parsedAccountInfo = await connection.getParsedAccountInfo(associatedTokenAddress)
-      
-      if (!parsedAccountInfo.value || !parsedAccountInfo.value.data.parsed) {
-        console.log(`ℹ️ No parsed data found for token account ${associatedTokenAddress.toString()}`)
-        return 0
-      }
-      
-      const tokenAccountData = parsedAccountInfo.value.data.parsed.info
-      const balance = parseFloat(tokenAccountData.tokenAmount.uiAmount || 0)
-      
-      console.log(`✅ Token balance found: ${balance} for ${mintAddress}`)
-      return balance
-      
-    } catch (accountError) {
-      console.log(`ℹ️ Token account not found for ${mintAddress}:`, accountError.message)
+    if (tokenAccounts.value.length === 0) {
+      console.log(`ℹ️ No token accounts found for ${mintAddress}`)
       return 0
     }
+    
+    // Get the balance from the first (and usually only) token account
+    const accountInfo = await connection.getTokenAccountBalance(tokenAccounts.value[0].pubkey)
+    const balance = parseFloat(accountInfo.value.uiAmount || 0)
+    
+    console.log(`✅ Token balance found: ${balance} for ${mintAddress}`)
+    return balance
+    
   } catch (error) {
     console.error(`❌ Error getting token balance for ${mintAddress}:`, error)
     return 0
