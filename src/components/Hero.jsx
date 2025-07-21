@@ -94,7 +94,7 @@ function Hero() {
                 {/* Logo */}
                 <img 
                   src={logo} 
-                  alt="ST0NKS Logo" 
+                  alt="STONKS Logo" 
                   className="relative h-16 md:h-20 lg:h-24 object-contain"
                 />
               </div>
@@ -113,7 +113,7 @@ function Hero() {
               </span>
               <br />
               with{' '}
-              <span className="text-stonks-green font-black">$ST0NKS</span>
+              <span className="text-stonks-green font-black">$STONKS</span>
             </motion.h1>
 
             {/* Subheadline */}
@@ -123,7 +123,7 @@ function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
-              Connect wallet to start trade stocks on-chain with $st0nks
+              Connect wallet to start trade stocks on-chain with $STONKS
             </motion.p>
 
             {/* CTA Buttons */}
@@ -138,7 +138,7 @@ function Hero() {
                 <WalletMultiButton className="btn-3d !bg-stonks-green hover:!bg-green-500 !border-none !rounded-lg !font-heading !font-bold !text-lg !px-8 !py-4 !transition-all !duration-300" />
               </div>
 
-              {/* Buy ST0NKS button */}
+              {/* Buy STONKS button */}
               <motion.a
                 href="https://dexscreener.com/solana/CwMm1x28qoStmYnsLkRFqQfiQEyBTvKVJjcaSkc2bonk"
                 target="_blank"
@@ -147,7 +147,7 @@ function Hero() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Buy $ST0NKS
+                Buy $STONKS
               </motion.a>
 
               {connected && (
@@ -181,7 +181,7 @@ function Hero() {
 
           </motion.div>
 
-          {/* Right side - St0nks Guy character */}
+                      {/* Right side - Stonks Guy character */}
           <motion.div 
             className="lg:w-1/2 flex justify-center lg:justify-end"
             initial={{ opacity: 0, x: 50 }}
@@ -206,7 +206,7 @@ function Hero() {
                 }}
               />
               
-              {/* ST0NKS Guy Character */}
+              {/* STONKS Guy Character */}
               <motion.div
                 className="relative z-10 w-80 h-80 md:w-96 md:h-96 flex items-center justify-center"
                 animate={{
@@ -220,7 +220,7 @@ function Hero() {
               >
                 <img 
                   src={stonksGuy} 
-                  alt="ST0NKS Guy Character" 
+                  alt="STONKS Guy Character" 
                   className="w-full h-full object-contain drop-shadow-2xl"
                 />
               </motion.div>
