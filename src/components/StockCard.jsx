@@ -538,7 +538,7 @@ function StockCard({ stock, stonksPrice }) {
                   {swapDirection === 'buy' 
                     ? (parseFloat(amount) * stonksToStockRate).toFixed(6)
                     : (parseFloat(amount) * stockToStonksRate).toFixed(2)
-                  } {swapDirection === 'buy' ? stock.symbol : 'ST0NKS'}
+                  } {swapDirection === 'buy' ? stock.symbol : 'STONKS'}
                 </div>
                 <div className="text-xs text-gray-500 mt-1">
                   ≈ ${swapDirection === 'buy' 
