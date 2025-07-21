@@ -28,11 +28,11 @@ function Dashboard() {
         setLastUpdated(new Date())
         
         // Show success toast for loaded tokens
-        toast.success(`🚀 Loaded ${stockData.length} stock tokens + $ST0NKS with real-time prices!`)
+        toast.success(`🚀 Loaded ${stockData.length} stock tokens + $STONKS with real-time prices!`)
         
         // Show warning if STONKS token not configured
         if (!TOKEN_CONFIG.STONKS.mint) {
-          toast.error('⚠️ ST0NKS token not configured. Trading will be limited.')
+          toast.error('⚠️ STONKS token not configured. Trading will be limited.')
         }
       } catch (error) {
         console.error('Failed to load stock data:', error)
@@ -59,7 +59,7 @@ function Dashboard() {
         setStocks(stockData)
         setStonksPrice(stonksData)
         setLastUpdated(new Date())
-        console.log(`✅ Updated ${stockData.length} stock + ST0NKS prices automatically`)
+        console.log(`✅ Updated ${stockData.length} stock + STONKS prices automatically`)
       } catch (error) {
         console.warn('Failed to auto-refresh stock prices:', error)
       }
@@ -79,7 +79,7 @@ function Dashboard() {
       setStocks(stockData)
       setStonksPrice(stonksData)
       setLastUpdated(new Date())
-      toast.success(`💎 Refreshed ${stockData.length} stock + ST0NKS prices!`)
+      toast.success(`💎 Refreshed ${stockData.length} stock + STONKS prices!`)
     } catch (error) {
       console.error('Failed to refresh stock data:', error)
       toast.error('Failed to refresh prices')
@@ -121,10 +121,10 @@ function Dashboard() {
             </span>
           </h2>
           <p className="text-lg text-gray-300 max-w-2xl mx-auto mb-4">
-            Swap $ST0NKS for stock-pegged SPL tokens instantly. Real-time prices, zero fees.
+            Swap $STONKS for stock-pegged SPL tokens instantly. Real-time prices, zero fees.
           </p>
           
-                        {/* ST0NKS Price Display */}
+                        {/* STONKS Price Display */}
           {stonksPrice && (
             <motion.div 
               className="bg-gradient-to-r from-stonks-green/20 to-green-400/20 backdrop-blur-sm border border-stonks-green/30 rounded-xl p-4 mb-8 max-w-md mx-auto"
@@ -135,7 +135,7 @@ function Dashboard() {
               <div className="flex items-center justify-center gap-4">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-stonks-green mb-1">
-                    💎 $ST0NKS
+                    💎 $STONKS
                   </div>
                   <div className="text-3xl font-bold text-white">
                     {formatPrice(stonksPrice.price)}
