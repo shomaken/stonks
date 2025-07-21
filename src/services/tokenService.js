@@ -65,6 +65,42 @@ export const TOKEN_CONFIG = {
       symbol: 'METAx',
       name: 'Meta Platforms Inc.',
       category: 'tech'
+    },
+    HOODx: {
+      mint: import.meta.env.VITE_HOOD_MINT || 'XsvNBAYkrDRNhA7wPHQfX3ZUXZyZLdnCQDfHZ56bzpg',
+      symbol: 'HOODx',
+      name: 'Robinhood Markets Inc.',
+      category: 'finance'
+    },
+    COINx: {
+      mint: import.meta.env.VITE_COIN_MINT || 'Xs7ZdzSHLU9ftNJsii5fCeJhoRWSC32SQGzGQtePxNu',
+      symbol: 'COINx',
+      name: 'Coinbase Global Inc.',
+      category: 'finance'
+    },
+    QQQx: {
+      mint: import.meta.env.VITE_QQQ_MINT || 'Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ',
+      symbol: 'QQQx',
+      name: 'Invesco QQQ Trust ETF',
+      category: 'etf'
+    },
+    DFDVx: {
+      mint: import.meta.env.VITE_DFDV_MINT || 'Xs2yquAgsHByNzx68WJC55WHjHBvG9JsMB7CWjTLyPy',
+      symbol: 'DFDVx',
+      name: 'Dimensional U.S. Core Equity 2 ETF',
+      category: 'etf'
+    },
+    AMZNx: {
+      mint: import.meta.env.VITE_AMZN_MINT || 'Xs3eBt7uRfJX8QUs4suhyU8p2M6DoUDrJyWBa8LLZsg',
+      symbol: 'AMZNx',
+      name: 'Amazon.com Inc.',
+      category: 'tech'
+    },
+    GLDx: {
+      mint: import.meta.env.VITE_GLD_MINT || 'Xsv9hRk1z5ystj9MhnA7Lq4vjSsLwzL2nxrwmwtD3re',
+      symbol: 'GLDx',
+      name: 'SPDR Gold Trust ETF',
+      category: 'commodity'
     }
   }
 }
