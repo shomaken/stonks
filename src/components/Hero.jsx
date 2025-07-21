@@ -140,7 +140,7 @@ function Hero() {
 
               {/* Buy STONKS button */}
               <motion.a
-                href="https://dexscreener.com/solana/CwMm1x28qoStmYnsLkRFqQfiQEyBTvKVJjcaSkc2bonk"
+                href="https://dexscreener.com/solana/27U6sAYSDUJLpeCTTL5gW2wSwLGNRZRZKWJEqTWGbonk"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-3d bg-gradient-to-r from-stonks-green to-green-600 hover:from-green-400 hover:to-green-500 border-stonks-green hover:border-green-400 text-white font-heading font-bold text-lg px-8 py-4 transition-all duration-300 text-center"
