@@ -35,7 +35,7 @@ function StockCard({ stock, stonksPrice }) {
       if (tokenType === 'STONKS') {
         const stonksTokenAccount = await connection.getTokenAccountsByOwner(
           publicKey,
-          { mint: new PublicKey('CwMm1x28qoStmYnsLkRFqQfiQEyBTvKVJjcaSkc2bonk') }
+          { mint: new PublicKey('27U6sAYSDUJLpeCTTL5gW2wSwLGNRZRZKWJEqTWGbonk') }
         )
         if (stonksTokenAccount.value.length === 0) return 0
         
@@ -106,7 +106,7 @@ function StockCard({ stock, stonksPrice }) {
         const stonksTokenAccount = await executeRpcWithRetry(
           () => connection.getTokenAccountsByOwner(
             publicKey,
-            { mint: new PublicKey('CwMm1x28qoStmYnsLkRFqQfiQEyBTvKVJjcaSkc2bonk') }
+            { mint: new PublicKey('27U6sAYSDUJLpeCTTL5gW2wSwLGNRZRZKWJEqTWGbonk') }
           ),
           3, // 3 retries
           8000 // 8 second timeout
@@ -214,7 +214,7 @@ function StockCard({ stock, stonksPrice }) {
          const jupiterQuoteApi = createJupiterApiClient()
          
          // Your exact token contract addresses
-         const STONKS_TOKEN = 'CwMm1x28qoStmYnsLkRFqQfiQEyBTvKVJjcaSkc2bonk'
+         const STONKS_TOKEN = '27U6sAYSDUJLpeCTTL5gW2wSwLGNRZRZKWJEqTWGbonk'
          const STOCK_TOKEN = stock.mint
          
          // Validate token addresses
