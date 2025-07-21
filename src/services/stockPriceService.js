@@ -17,7 +17,13 @@ const STOCK_TOKEN_ADDRESSES = {
   GOOGLx: 'XsCPL9dNWBMvFtTmwcCA5v3xWPSMEBCszbQdiLLq6aN',
   AAPLx: 'XsbEhLAtcf6HdfpFZ5xEMdqW8nfAvcsP5bdudRLJzJp',
   MCDx: 'XsqE9cRRpzxcGKDXj1BJ7Xmg4GRhZoyY1KpmGSxAWT2',
-  METAx: 'Xsa62P5mvPszXL1krVUnU5ar38bBSVcWAB6fmPCo5Zu'
+  METAx: 'Xsa62P5mvPszXL1krVUnU5ar38bBSVcWAB6fmPCo5Zu',
+  HOODx: 'XsvNBAYkrDRNhA7wPHQfX3ZUXZyZLdnCQDfHZ56bzpg',
+  COINx: 'Xs7ZdzSHLU9ftNJsii5fCeJhoRWSC32SQGzGQtePxNu',
+  QQQx: 'Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ',
+  DFDVx: 'Xs2yquAgsHByNzx68WJC55WHjHBvG9JsMB7CWjTLyPy',
+  AMZNx: 'Xs3eBt7uRfJX8QUs4suhyU8p2M6DoUDrJyWBa8LLZsg',
+  GLDx: 'Xsv9hRk1z5ystj9MhnA7Lq4vjSsLwzL2nxrwmwtD3re'
 }
 
 // Cache configuration
@@ -399,7 +405,13 @@ const getStockName = (symbol) => {
     GOOGLx: 'Alphabet Inc.',
     AAPLx: 'Apple Inc.',
     MCDx: 'McDonald\'s Corporation',
-    METAx: 'Meta Platforms Inc.'
+    METAx: 'Meta Platforms Inc.',
+    HOODx: 'Robinhood Markets Inc.',
+    COINx: 'Coinbase Global Inc.',
+    QQQx: 'Invesco QQQ Trust ETF',
+    DFDVx: 'Dimensional U.S. Core Equity 2 ETF',
+    AMZNx: 'Amazon.com Inc.',
+    GLDx: 'SPDR Gold Trust ETF'
   }
   return names[symbol] || `${symbol} Token`
 }
@@ -415,7 +427,13 @@ const getStockCategory = (symbol) => {
     GOOGLx: 'tech',
     AAPLx: 'tech',
     MCDx: 'consumer',
-    METAx: 'tech'
+    METAx: 'tech',
+    HOODx: 'finance',
+    COINx: 'finance',
+    QQQx: 'etf',
+    DFDVx: 'etf',
+    AMZNx: 'tech',
+    GLDx: 'commodity'
   }
   return categories[symbol] || 'tech'
 }
