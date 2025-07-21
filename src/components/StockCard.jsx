@@ -21,10 +21,10 @@ function StockCard({ stock, stonksPrice }) {
   const stonksUsdPrice = stonksPrice?.price || 0.001
   const stockUsdPrice = stock.price
   
-  // How many stock tokens you get for 1 ST0NKS
+  // How many stock tokens you get for 1 STONKS
   const stonksToStockRate = stonksUsdPrice / stockUsdPrice
   
-  // How many ST0NKS you need for 1 stock token
+  // How many STONKS you need for 1 stock token
   const stockToStonksRate = stockUsdPrice / stonksUsdPrice
 
   // Function to get user's current balance for quick amount buttons
@@ -113,7 +113,7 @@ function StockCard({ stock, stonksPrice }) {
         )
         
         if (stonksTokenAccount.value.length === 0) {
-          throw new Error('No ST0NKS tokens found in wallet. Get some ST0NKS first!')
+          throw new Error('No STONKS tokens found in wallet. Get some STONKS first!')
         }
         
         const accountInfo = await executeRpcWithRetry(
@@ -128,10 +128,10 @@ function StockCard({ stock, stonksPrice }) {
         
         if (balance < amountRequired) {
           const balanceFormatted = (balance / divisor).toFixed(6)
-          throw new Error(`Insufficient ST0NKS balance. You have ${balanceFormatted} ST0NKS, need ${amount}`)
+          throw new Error(`Insufficient STONKS balance. You have ${balanceFormatted} STONKS, need ${amount}`)
         }
         
-        console.log(`✅ ST0NKS balance check passed: ${(balance / divisor).toFixed(6)} available (${decimals} decimals)`)
+        console.log(`✅ STONKS balance check passed: ${(balance / divisor).toFixed(6)} available (${decimals} decimals)`)
         
       } else {
         // Check stock token balance for selling with retry
@@ -239,7 +239,7 @@ function StockCard({ stock, stonksPrice }) {
              const stonksMint = await getMint(connection, new PublicKey(STONKS_TOKEN))
              const decimals = stonksMint.decimals
              inputAmount = Math.floor(parseFloat(amount) * Math.pow(10, decimals))
-             console.log(`💰 ST0NKS input: ${amount} tokens = ${inputAmount} smallest units (${decimals} decimals)`)
+             console.log(`💰 STONKS input: ${amount} tokens = ${inputAmount} smallest units (${decimals} decimals)`)
            } else {
              // User entered stock token amount - get stock token decimals  
              const stockMint = await getMint(connection, new PublicKey(STOCK_TOKEN))
@@ -296,7 +296,7 @@ function StockCard({ stock, stonksPrice }) {
          })
          
          if (!quoteResponse) {
-           throw new Error(`No Jupiter route found for ${direction === 'buy' ? 'ST0NKS' : stock.symbol} → ${direction === 'buy' ? stock.symbol : 'ST0NKS'}`)
+           throw new Error(`No Jupiter route found for ${direction === 'buy' ? 'STONKS' : stock.symbol} → ${direction === 'buy' ? stock.symbol : 'STONKS'}`)
          }
          
          console.log('✅ Jupiter quote received:', {
@@ -353,8 +353,8 @@ function StockCard({ stock, stonksPrice }) {
            console.log('✅ Transaction confirmed:', confirmation)
            
            // Calculate actual amounts swapped
-           const inputTokenName = direction === 'buy' ? 'ST0NKS' : stock.symbol
-           const outputTokenName = direction === 'buy' ? stock.symbol : 'ST0NKS'
+                 const inputTokenName = direction === 'buy' ? 'STONKS' : stock.symbol
+      const outputTokenName = direction === 'buy' ? stock.symbol : 'STONKS'
            const outputAmountFormatted = (parseFloat(quoteResponse.outAmount) / 1e9).toFixed(6)
            
            toast.success(`🎉 Swap successful! Traded ${amount} ${inputTokenName} for ${outputAmountFormatted} ${outputTokenName}`)
@@ -370,9 +370,9 @@ function StockCard({ stock, stonksPrice }) {
          
                  // More specific error messages with helpful suggestions
         if (jupiterError.message?.includes('No route found') || jupiterError.message?.includes('error code') || jupiterError.message?.includes('Response returned an error code')) {
-          throw new Error(`💡 Amount too small! Try swapping more ${direction === 'buy' ? 'ST0NKS' : stock.symbol} for better liquidity.`)
+          throw new Error(`💡 Amount too small! Try swapping more ${direction === 'buy' ? 'STONKS' : stock.symbol} for better liquidity.`)
         } else if (jupiterError.message?.includes('Insufficient')) {
-                      throw new Error(`❌ Insufficient ${direction === 'buy' ? 'ST0NKS' : stock.symbol} balance in your wallet.`)
+                      throw new Error(`❌ Insufficient ${direction === 'buy' ? 'STONKS' : stock.symbol} balance in your wallet.`)
         } else if (jupiterError.message?.includes('User rejected')) {
           throw new Error('❌ Transaction was rejected. Please try again.')
         } else {
@@ -463,7 +463,7 @@ function StockCard({ stock, stonksPrice }) {
           <div className="text-xs text-gray-500 mb-2 text-center">Live Exchange Rates</div>
           <div className="space-y-1">
             <div className="flex justify-between">
-              <span>1 ST0NKS =</span>
+              <span>1 STONKS =</span>
               <span className="text-stonks-green font-semibold">
                 {stonksToStockRate < 0.000001 
                   ? stonksToStockRate.toExponential(2)
@@ -474,7 +474,7 @@ function StockCard({ stock, stonksPrice }) {
             <div className="flex justify-between">
               <span>1 {stock.symbol} =</span>
               <span className="text-stonks-green font-semibold">
-                {stockToStonksRate.toFixed(0)} ST0NKS
+                {stockToStonksRate.toFixed(0)} STONKS
               </span>
             </div>
           </div>
@@ -498,7 +498,7 @@ function StockCard({ stock, stonksPrice }) {
             <div>
               <label className="block text-sm text-gray-400 mb-1">
                 {swapDirection === 'buy' 
-                  ? `Enter ST0NKS amount to spend (≈$${formatPrice(stonksUsdPrice)})` 
+                  ? `Enter STONKS amount to spend (≈$${formatPrice(stonksUsdPrice)})` 
                   : `Enter ${stock.symbol} amount to sell (≈${formatPrice(stockUsdPrice)})`
                 }
               </label>
