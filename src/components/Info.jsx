@@ -244,7 +244,7 @@ function Info() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            {/* 80% Locked Supply */}
+            {/* 70% Locked Supply */}
             <motion.div
               className="relative bg-gradient-to-br from-navy/80 to-navy/60 backdrop-blur-sm rounded-2xl p-8 border border-stonks-green/20 hover:border-stonks-green/40 transition-all duration-300 group"
               initial={{ opacity: 0, x: -50 }}
@@ -261,7 +261,7 @@ function Info() {
                     <span className="text-2xl">🔒</span>
                   </div>
                   <div>
-                    <h4 className="font-heading text-xl font-bold text-white">80% Supply Locked</h4>
+                    <h4 className="font-heading text-xl font-bold text-white">70% Supply Locked</h4>
                     <p className="text-gray-300 text-sm">1 Month Lock Period</p>
                   </div>
                 </div>
@@ -270,13 +270,13 @@ function Info() {
                   <motion.div 
                     className="bg-gradient-to-r from-stonks-green to-green-400 h-3 rounded-full"
                     initial={{ width: 0 }}
-                    whileInView={{ width: "80%" }}
+                    whileInView={{ width: "70%" }}
                     transition={{ duration: 1.5, delay: 0.5 }}
                     viewport={{ once: true }}
                   ></motion.div>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p className="text-stonks-green font-semibold">80%</p>
+                  <p className="text-stonks-green font-semibold">70%</p>
                   <motion.button
                     className="bg-gradient-to-r from-stonks-green to-green-400 text-navy font-semibold py-2 px-4 rounded-lg hover:shadow-lg hover:shadow-stonks-green/25 transition-all duration-300 text-sm"
                     whileHover={{ scale: 1.05 }}
@@ -289,7 +289,7 @@ function Info() {
               </div>
             </motion.div>
 
-            {/* 20% Circulating Supply */}
+            {/* 30% Circulating Supply */}
             <motion.div
               className="relative bg-gradient-to-br from-navy/80 to-navy/60 backdrop-blur-sm rounded-2xl p-8 border border-stonks-green/20 hover:border-stonks-green/40 transition-all duration-300 group"
               initial={{ opacity: 0, x: 50 }}
@@ -306,7 +306,7 @@ function Info() {
                     <span className="text-2xl">💧</span>
                   </div>
                   <div>
-                    <h4 className="font-heading text-xl font-bold text-white">20% Circulating</h4>
+                    <h4 className="font-heading text-xl font-bold text-white">30% Circulating</h4>
                     <p className="text-gray-300 text-sm">Available on Raydium</p>
                   </div>
                 </div>
@@ -315,12 +315,12 @@ function Info() {
                   <motion.div 
                     className="bg-gradient-to-r from-blue-500 to-blue-400 h-3 rounded-full"
                     initial={{ width: 0 }}
-                    whileInView={{ width: "20%" }}
+                    whileInView={{ width: "30%" }}
                     transition={{ duration: 1.5, delay: 0.7 }}
                     viewport={{ once: true }}
                   ></motion.div>
                 </div>
-                <p className="text-right text-blue-400 font-semibold">20%</p>
+                <p className="text-right text-blue-400 font-semibold">30%</p>
               </div>
             </motion.div>
           </div>
