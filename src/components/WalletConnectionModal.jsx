@@ -40,7 +40,7 @@ const WalletConnectionModal = ({ isOpen, onClose }) => {
               <div className="wallet-modal-icon">🔐</div>
               <h2 className="wallet-modal-title">Connect Your Wallet</h2>
               <p className="wallet-modal-subtitle">
-                Connect your wallet to start trading $ST0NKS for stock tokens
+                Connect your wallet to start trading $STONKS for stock tokens
               </p>
             </div>
 
