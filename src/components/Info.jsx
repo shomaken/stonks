@@ -281,7 +281,7 @@ function Info() {
                     className="bg-gradient-to-r from-stonks-green to-green-400 text-navy font-semibold py-2 px-4 rounded-lg hover:shadow-lg hover:shadow-stonks-green/25 transition-all duration-300 text-sm"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => window.open('https://solscan.io/token/27U6sAYSDUJLpeCTTL5gW2wSwLGNRZRZKWJEqTWGbonk', '_blank')}
+                    onClick={() => window.open('https://app.streamflow.finance/lock-tokens/review', '_blank')}
                   >
                     🔍 Check Locked Supply
                   </motion.button>
