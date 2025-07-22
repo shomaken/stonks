@@ -8,6 +8,7 @@ function Footer() {
     { name: 'Telegram', icon: '📱', url: 'https://t.me/stonksmarketgg' },
     { name: 'X Community', icon: '👥', url: 'https://x.com/i/communities/1947413548243816672' },
     { name: 'X Account', icon: '🐦', url: 'https://x.com/stonksmarketgg' },
+    { name: 'GitHub', icon: '⚡', url: 'https://github.com/shomaken/stonks' },
   ]
 
   return (
