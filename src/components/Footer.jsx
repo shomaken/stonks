@@ -35,7 +35,7 @@ function Footer() {
             </div>
           </motion.div>
 
-          {/* Center - Attribution */}
+          {/* Center - Copyright */}
           <motion.div 
             className="text-center mb-6 md:mb-0"
             initial={{ opacity: 0, y: 20 }}
@@ -43,26 +43,7 @@ function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <p className="text-gray-300 font-medium">
-              This Website is made
-              <motion.span
-                className="text-red-500 text-xl"
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
-              >
-                
-              </motion.span>
-              {' '}by{' '}
-              <a 
-                href="https://x.com/brooz22" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-stonks-green font-bold hover:text-green-400 transition-colors duration-300"
-              >
-                Brooz
-              </a>
-            </p>
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-gray-500">
               © {currentYear} Stonks. No financial advice.
             </p>
           </motion.div>
